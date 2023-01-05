@@ -1,3 +1,13 @@
+body {
+    background-image: radial-gradient(#000000 1px, transparent 1px);
+    background-size: 21px 21px;
+    background-color: rgba(3, 3, 3, 0);
+}
+
+a{
+    text-decoration: none;
+}
+
 .app-wrapper {
     display: grid;
     width: 1200px;
@@ -9,25 +19,10 @@
 
     grid-template-rows: 60px 1fr;
     grid-template-columns: 2fr 10fr;
-   /* grid-gap: 10px;*/
+    grid-gap: 10px;
 }
 
-.header {
-    grid-area: header;
-    background-color: darkgreen;
-}
 
-.header img {
-    width: 60px;
-}
 
-.nav {
-    grid-area: nav;
-    background-color: coral;
 
-}
 
-.content {
-    grid-area: content;
-    background-color: cadetblue;
-}
