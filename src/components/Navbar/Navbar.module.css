@@ -8,6 +8,6 @@
     color: white;
 }
 
-.active a{
+a.active {
     color: #f10c0c;
 }
