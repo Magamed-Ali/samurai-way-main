@@ -1,8 +1,12 @@
 import React from "react";
 import s from "./MyPosts.module.css";
 import Posts from "./Post/Posts";
+import {typeArrayPosts} from "../Profile";
 
-const MyPosts = () => {
+
+const MyPosts = (props: typeArrayPosts) => {
+
+    console.log(props.posts)
     return (
         <div className={s.postsBlock}>
             My posts
@@ -13,9 +17,11 @@ const MyPosts = () => {
                 <button>Add post</button>
                 <button>Remove</button>
             </div>
-            <Posts message={"Hi, how are you?"}/>
-            <Posts message={"It`s my first post"}/>
-            <Posts message={"Hello"}/>
+            {
+                props.posts.map(post => (
+                    <Posts message={post.message}/>
+                ))
+            }
         </div>
     )
 }
