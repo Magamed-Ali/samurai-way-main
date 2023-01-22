@@ -11,3 +11,19 @@
 a.active {
     color: #f10c0c;
 }
+
+.friends{
+    display: flex;
+    justify-content: space-around;
+}
+
+.friend{
+    width: 40px;
+    height: 40px;
+    background-color: gold;
+    border-radius: 50px;
+}
+
+.friendName{
+    text-align: center;
+}

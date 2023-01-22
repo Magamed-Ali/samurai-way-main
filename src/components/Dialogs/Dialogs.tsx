@@ -2,11 +2,11 @@ import React from 'react';
 import s from './Dialogs.module.css'
 import DialogItem from "./DialogItem/DialogsItem";
 import Message from "./Message/Message";
-import {DialogType, messagesType} from "../../App";
+import {DialogType, messagesType, profileType, stateType, TypeMessage} from "../../redux/state";
+
 
 type DialogsType = {
-    dialogsData: Array<DialogType>
-    messagesData: Array<messagesType>
+    state: stateType
 }
 function Dialogs(props: DialogsType) {
 
@@ -15,13 +15,13 @@ function Dialogs(props: DialogsType) {
         <div className={s.dialogs}>
             <div className={s.dialogsItem}>
                 {
-                    props.dialogsData.map(item => (
-                        <DialogItem name={item.name} id={item.id}/>)
+                    props.state.profile.dialogsData.map(item => (
+                        <DialogItem name={item.name} id={item.id} img={item.img}/>)
                     )}
             </div>
             <div className={s.messages}>
                 {
-                    props.messagesData.map(mes => (
+                    props.state.message.messagesData.map(mes => (
                         <Message messages={mes.messages}/>
                     ))
                 }

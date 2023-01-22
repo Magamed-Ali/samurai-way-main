@@ -1,12 +1,17 @@
 import React from "react";
 import s from "./MyPosts.module.css";
 import Posts from "./Post/Posts";
-import {typeArrayPosts} from "../Profile";
+import {PostType} from "../../../redux/state";
 
 
-const MyPosts = (props: typeArrayPosts) => {
+type postType = {
+    posts: Array<PostType>
+}
 
-    console.log(props.posts)
+const MyPosts = (props: postType) => {
+
+    console.log(props)
+
     return (
         <div className={s.postsBlock}>
             My posts

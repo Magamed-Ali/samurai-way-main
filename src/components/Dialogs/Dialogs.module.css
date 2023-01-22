@@ -18,9 +18,19 @@ display: grid;
 }
 
 .dialog{
+    display: flex;
+    align-items: center;
+    margin: 5px 5px;
     cursor: pointer;
 }
 
 .messages{
     padding: 10px;
+}
+
+.dialogsImg{
+    width: 50px;
+    height: 50px;
+    padding: 5px 10px 5px 0;
+    border-radius: 50%;
 }

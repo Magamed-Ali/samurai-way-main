@@ -1,12 +1,14 @@
 import React from 'react';
 import s from './../Dialogs.module.css'
 import {NavLink} from "react-router-dom";
-import {DialogType} from "../../../App";
+import {DialogType} from "../../../redux/state";
+
+
 
 const DialogItem = (props: DialogType) => {
 
     return <div className={s.dialog}>
-        <NavLink to={`dialog/${props.id}`}>{props.name}</NavLink>
+        <img src={props.img} className={s.dialogsImg}/><NavLink to={`dialog/${props.id}`}>{props.name}</NavLink>
     </div>
 }
 
