@@ -25,6 +25,9 @@ display: grid;
 }
 
 .messages{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
     padding: 10px;
 }
 
@@ -33,4 +36,17 @@ display: grid;
     height: 50px;
     padding: 5px 10px 5px 0;
     border-radius: 50%;
+}
+.textareaBox{
+    padding: 10px 10%;
+    display: flex;
+    justify-content: end;
+    vertical-align: center;
+}
+.textareaText{
+    width: 70%;
+}
+.textareaBtn{
+    margin-left: 2%;
+    width: 15%;
 }

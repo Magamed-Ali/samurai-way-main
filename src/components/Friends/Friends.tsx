@@ -5,7 +5,6 @@ function Friends(props: any) {
     return (
         <div>
             Friends
-
         </div>
 
     );
