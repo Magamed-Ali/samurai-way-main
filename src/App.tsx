@@ -13,22 +13,31 @@ import Friends from './components/Friends/Friends';
 
 type AppType = {
     appState: stateType
-    addPost: (newMessage: string) => void
+    addPost: () => void
+    updateNewPostText: (text: string) => void
 }
 const App: React.FC<AppType> = ({
-    appState,
-    addPost
-                                  }) => {
-
+                                    appState,
+                                    addPost,
+                                    updateNewPostText}) => {
     return (
         <div className="app-wrapper">
-            <Header />
-            <Navbar />
+            <Header/>
+            <Navbar/>
 
             <div className="app-wrapper-content">
-                <Route path="/profile"  render={() => <Profile posts={appState.profile} addPost={addPost}/>}/>
-                <Route path="/messages" render={() => <Dialogs state={appState}/>}/>
-                <Route path="/news" render={() => <News />}/>
+                <Route path="/profile" render={() =>
+                    <Profile
+                        profilePages={appState.profile}
+                        addPost={addPost}
+                        updateNewPostText={updateNewPostText}
+                    />}/>
+
+                <Route path="/messages" render={() =>
+                    <Dialogs
+                        state={appState}/>}/>
+
+                <Route path="/news" render={() => <News/>}/>
                 <Route path="/music" render={() => <Music/>}/>
                 <Route path="/settings" render={() => <Settings/>}/>
                 <Route path="/friends" render={() => <Friends/>}/>

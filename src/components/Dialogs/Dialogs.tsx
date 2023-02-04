@@ -40,7 +40,7 @@ function Dialogs(props: DialogsType) {
             </div>
             <div className={s.textareaBox}>
                 <textarea ref={textAreaValue} className={s.textareaText}></textarea>
-                <button onClick={addMessage} className={s.textareaBtn}>add</button>
+                <button onClick={addMessage} className={s.textareaBtn}>add1</button>
             </div>
         </div>
 

@@ -1,5 +1,9 @@
 import {v1} from "uuid"
 
+let rerenderEntireTrue = () => {
+    console.log("asdf")
+}
+
 export type MessageType = {
     messages: string
 }
@@ -22,6 +26,7 @@ export type messagesType = {
 export type profileType = {
     postsMessage: Array<PostType>
     dialogsData: Array<DialogType>
+    newPostText: string
 }
 export type TypeMessage = {
     messagesData: Array<messagesType>
@@ -61,7 +66,8 @@ export const state: stateType = {
                 img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQN_UPMuHHxl1ormDi6kJwtUjvj8ljwE1sHRE4-VvxaRn4CVePTra66NElbLMO_eEdeGeg&usqp=CAU"
             },
             {id: v1(), name: "Pasha", img: "https://m.ridus.ru/images/2018/9/17/818259/in_article_bb639eadfe.jpg"},
-        ]
+        ],
+        newPostText: "it-kamasutra"
     },
     message: {
         messagesData: [
@@ -73,8 +79,16 @@ export const state: stateType = {
 
 }
 
-export const addPost = (newMessage: string) => {
-    let newPost = {id: v1(), message: newMessage, likesCount: 0};
+export const addPost = () => {
+    let newPost = {id: v1(), message: state.profile.newPostText, likesCount: 0};
     state.profile.postsMessage.push(newPost);
+    rerenderEntireTrue();
 }
-
+export const updateNewPostText = (text: string) => {
+    state.profile.newPostText = text;
+    rerenderEntireTrue();
+}
+export const subscribe = (observer:  () => void) => {
+    rerenderEntireTrue = observer;
+    console.log(observer)
+}

@@ -47,6 +47,7 @@ display: grid;
     width: 70%;
 }
 .textareaBtn{
+    height: 35px;
     margin-left: 2%;
     width: 15%;
 }
