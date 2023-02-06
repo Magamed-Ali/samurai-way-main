@@ -1,7 +1,7 @@
 import {v1} from "uuid"
 
 let rerenderEntireTrue = () => {
-    console.log("asdf")
+    console.log("5555")
 }
 
 export type MessageType = {
@@ -90,5 +90,5 @@ export const updateNewPostText = (text: string) => {
 }
 export const subscribe = (observer:  () => void) => {
     rerenderEntireTrue = observer;
-    console.log(observer)
+    console.log("00009999")
 }
