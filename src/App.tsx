@@ -8,15 +8,14 @@ import {BrowserRouter, Route} from "react-router-dom";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
-import {stateType, StoreType} from "./redux/state";
+import {ActionsType, stateType, StoreType} from "./redux/state";
 import Friends from './components/Friends/Friends';
 
 type AppType = {
     appState: StoreType
-    addPost: () => void
-    updateNewPostText: (text: string) => void
+    dispatch: (action: ActionsType) => void
 }
-const App: React.FC<AppType> = ({appState, addPost, updateNewPostText}) => {
+const App: React.FC<AppType> = ({appState, dispatch}) => {
     return (
         <div className="app-wrapper">
             <Header/>
@@ -26,8 +25,9 @@ const App: React.FC<AppType> = ({appState, addPost, updateNewPostText}) => {
                 <Route path="/profile" render={() =>
                     <Profile
                         profilePages={appState.getState().profile}
-                        addPost={addPost.bind(appState)}
-                        updateNewPostText={updateNewPostText.bind(appState)}
+                        dispatch={dispatch}
+                        /*addPost={addPost.bind(appState)}
+                        updateNewPostText={updateNewPostText.bind(appState)}*/
                     />}/>
 
                 <Route path="/messages" render={() =>

@@ -1,4 +1,7 @@
-import {v1} from "uuid"
+import {v1} from "uuid";
+
+export const ADD_POST = "ADD-POST";
+export const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
 
 export type MessageType = {
     messages: string
@@ -31,13 +34,26 @@ export type stateType = {
     message: TypeMessage
 }
 
+export type ActionsType = ReturnType<typeof addPostAC> | ReturnType<typeof changeNewTextAC>
+export const addPostAC = (newText: string | "") => {
+    return {
+        type: ADD_POST,
+        newText: newText
+    } as const
+}
+export const changeNewTextAC = (newText: string | "") => {
+    return {
+        type: UPDATE_NEW_POST_TEXT,
+        newText: newText
+    } as const
+}
+
 export type StoreType = {
     _state: stateType
-    addPost: () => void
-    updateNewPostText: (text: string) => void
     subscribe: (observer:  () => void) => void
     getState: () => stateType
     _callSubscriber: () => void
+    dispatch: (action: ActionsType) => void
 }
 export let store: StoreType = {
     _state: {
@@ -84,10 +100,16 @@ export let store: StoreType = {
     _callSubscriber(){
         console.log("5555")
     },
+    subscribe(observer:  () => void) {
+        this._callSubscriber = observer;
+        console.log("00009999")
+    },
     getState(){
         return this._state;
     },
-    addPost() {
+
+
+    /*addPost() {
         let newPost = {
             id: v1(),
             message: this._state.profile.newPostText,
@@ -98,10 +120,43 @@ export let store: StoreType = {
     updateNewPostText(text: string) {
         this._state.profile.newPostText = text;
         this._callSubscriber();
-    },
-    subscribe(observer:  () => void) {
-        this._callSubscriber = observer;
-        console.log("00009999")
+    },*/
+
+    dispatch(action){
+        if(action.type === ADD_POST){
+            let newPost = {
+                id: v1(),
+                message: this._state.profile.newPostText,
+                likesCount: 0};
+            this._state.profile.postsMessage.push(newPost);
+            this._callSubscriber();
+        } else if (action.type === UPDATE_NEW_POST_TEXT){
+            this._state.profile.newPostText = action.newText;
+            this._callSubscriber();
+        }
     }
 }
+
+export const addPostActionCreator = (newText: string | "") => ({
+        type: ADD_POST,
+        newText: newText
+} as const)
+export const updateNewPostTextActionCreator = (newText: string  | "") => ({
+        type: UPDATE_NEW_POST_TEXT,
+        newText: newText
+}as const)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

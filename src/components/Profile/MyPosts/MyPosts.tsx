@@ -1,24 +1,37 @@
 import React, {ChangeEvent, ChangeEventHandler, RefObject, useState} from "react";
 import s from "./MyPosts.module.css";
 import Posts from "./Post/Posts";
-import {PostType, profileType} from "../../../redux/state";
+import {
+    ActionsType,
+    addPostActionCreator,
+    PostType,
+    profileType,
+    updateNewPostTextActionCreator
+} from "../../../redux/state";
+
+
 type postType = {
     posts: profileType
-    addPost: () => void
-    updateNewPostText: (text: string) => void
+    dispatch: (action: ActionsType) => void
 }
+
 
 const MyPosts = (props: postType) => {
 
     let newPostCreateElement: RefObject<HTMLTextAreaElement> = React.createRef()
 
     const newAddPost = () => {
-        props.addPost();
-        props.updateNewPostText("")
+        let action1 = addPostActionCreator("")
+        props.dispatch(action1)
+
+        let action2= updateNewPostTextActionCreator("")
+        props.dispatch(action2)
 
     }
     const onPostChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.updateNewPostText(e.currentTarget.value)
+        /*props.dispatch({ type: "UPDATE-NEW-POST-TEXT", newText: e.currentTarget.value})*/
+        let action2= updateNewPostTextActionCreator(e.currentTarget.value)
+        props.dispatch(action2)
     }
     return (
         <div className={s.postsBlock}>
