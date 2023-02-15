@@ -1,7 +1,8 @@
 import {v1} from "uuid";
-
 export const ADD_POST = "ADD-POST";
 export const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
+export const UPDATE_NEW_MESSAGE_BODY = "UPDATE-NEW-MESSAGE-BODY";
+export const ADD_MESSAGE_BODY = "ADD_MESSAGE_BODY"
 
 export type MessageType = {
     messages: string
@@ -22,31 +23,23 @@ export type messagesType = {
 }
 export type profileType = {
     postsMessage: Array<PostType>
-    dialogsData: Array<DialogType>
     newPostText: string
 }
 export type TypeMessage = {
     messagesData: Array<messagesType>
+    dialogsData: Array<DialogType>
+    newMessageBody: string
 }
 export type stateType = {
     profile: profileType
-
     message: TypeMessage
 }
 
-export type ActionsType = ReturnType<typeof addPostAC> | ReturnType<typeof changeNewTextAC>
-export const addPostAC = (newText: string | "") => {
-    return {
-        type: ADD_POST,
-        newText: newText
-    } as const
-}
-export const changeNewTextAC = (newText: string | "") => {
-    return {
-        type: UPDATE_NEW_POST_TEXT,
-        newText: newText
-    } as const
-}
+export type ActionsType =
+    ReturnType<typeof addPostActionCreator> |
+    ReturnType<typeof updateNewPostTextActionCreator> |
+    ReturnType<typeof updateNewMessageBody> |
+    ReturnType<typeof addMessageBody>
 
 export type StoreType = {
     _state: stateType
@@ -62,6 +55,14 @@ export let store: StoreType = {
                 {id: v1(), message: "Hi, how are you?", likesCount: 12},
                 {id: v1(), message: "It`s my first post",  likesCount: 9},
                 {id: v1(), message: "Hello",  likesCount: 4}
+            ],
+            newPostText: "it-kamasutra"
+        },
+        message: {
+            messagesData: [
+                {id: v1(), messages: "Hi"},
+                {id: v1(), messages: "How is your it-kamasutra?"},
+                {id: v1(), messages: "Yo"}
             ],
             dialogsData: [
                 {
@@ -86,15 +87,9 @@ export let store: StoreType = {
                 },
                 {id: v1(), name: "Pasha", img: "https://m.ridus.ru/images/2018/9/17/818259/in_article_bb639eadfe.jpg"},
             ],
-            newPostText: "it-kamasutra"
+            newMessageBody: "it-incubator"
         },
-        message: {
-            messagesData: [
-                {id: v1(), messages: "Hi"},
-                {id: v1(), messages: "How is your it-kamasutra?"},
-                {id: v1(), messages: "Yo"}
-            ]
-        }
+
 
     },
     _callSubscriber(){
@@ -133,6 +128,17 @@ export let store: StoreType = {
         } else if (action.type === UPDATE_NEW_POST_TEXT){
             this._state.profile.newPostText = action.newText;
             this._callSubscriber();
+        } else if (action.type === UPDATE_NEW_MESSAGE_BODY){
+            this._state.message.newMessageBody = action.newText;
+            this._callSubscriber();
+        }else if (action.type === ADD_MESSAGE_BODY){
+            let newMessage = {
+                id: v1(),
+                messages: this._state.message.newMessageBody
+            }
+            this._state.message.messagesData.push(newMessage)
+            this._state.message.newMessageBody = ""
+            this._callSubscriber();
         }
     }
 }
@@ -145,6 +151,18 @@ export const updateNewPostTextActionCreator = (newText: string  | "") => ({
         type: UPDATE_NEW_POST_TEXT,
         newText: newText
 }as const)
+
+export const updateNewMessageBody = (newText: string) => {
+    return {
+        type: UPDATE_NEW_MESSAGE_BODY,
+        newText: newText
+    }as const
+}
+export const addMessageBody = () => {
+    return {
+        type: ADD_MESSAGE_BODY,
+    }as const
+}
 
 
 

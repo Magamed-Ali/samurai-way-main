@@ -16,6 +16,8 @@ type AppType = {
     dispatch: (action: ActionsType) => void
 }
 const App: React.FC<AppType> = ({appState, dispatch}) => {
+
+    console.log(appState._state.message.newMessageBody)
     return (
         <div className="app-wrapper">
             <Header/>
@@ -32,7 +34,9 @@ const App: React.FC<AppType> = ({appState, dispatch}) => {
 
                 <Route path="/messages" render={() =>
                     <Dialogs
-                        state={appState.getState()}/>}/>
+                        message={appState.getState().message}
+                        dispatch={dispatch}
+                    />}/>
 
                 <Route path="/news" render={() => <News/>}/>
                 <Route path="/music" render={() => <Music/>}/>
