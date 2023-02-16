@@ -1,4 +1,6 @@
 import {v1} from "uuid";
+import {addPostActionCreator, profileReduser, updateNewPostTextActionCreator} from "./profileReduser";
+import {addMessageBody, messageRedusser, updateNewMessageBody} from "./messageReduser";
 export const ADD_POST = "ADD-POST";
 export const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
 export const UPDATE_NEW_MESSAGE_BODY = "UPDATE-NEW-MESSAGE-BODY";
@@ -118,51 +120,14 @@ export let store: StoreType = {
     },*/
 
     dispatch(action){
-        if(action.type === ADD_POST){
-            let newPost = {
-                id: v1(),
-                message: this._state.profile.newPostText,
-                likesCount: 0};
-            this._state.profile.postsMessage.push(newPost);
-            this._callSubscriber();
-        } else if (action.type === UPDATE_NEW_POST_TEXT){
-            this._state.profile.newPostText = action.newText;
-            this._callSubscriber();
-        } else if (action.type === UPDATE_NEW_MESSAGE_BODY){
-            this._state.message.newMessageBody = action.newText;
-            this._callSubscriber();
-        }else if (action.type === ADD_MESSAGE_BODY){
-            let newMessage = {
-                id: v1(),
-                messages: this._state.message.newMessageBody
-            }
-            this._state.message.messagesData.push(newMessage)
-            this._state.message.newMessageBody = ""
-            this._callSubscriber();
-        }
+        this._state.profile = profileReduser(this._state.profile, action);
+        this._state.message = messageRedusser(this._state.message, action);
+
+        this._callSubscriber()
+
     }
 }
 
-export const addPostActionCreator = (newText: string | "") => ({
-        type: ADD_POST,
-        newText: newText
-} as const)
-export const updateNewPostTextActionCreator = (newText: string  | "") => ({
-        type: UPDATE_NEW_POST_TEXT,
-        newText: newText
-}as const)
-
-export const updateNewMessageBody = (newText: string) => {
-    return {
-        type: UPDATE_NEW_MESSAGE_BODY,
-        newText: newText
-    }as const
-}
-export const addMessageBody = () => {
-    return {
-        type: ADD_MESSAGE_BODY,
-    }as const
-}
 
 
 

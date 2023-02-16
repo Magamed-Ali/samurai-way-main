@@ -3,9 +3,10 @@ import s from './Dialogs.module.css'
 import DialogItem from "./DialogItem/DialogsItem";
 import Message from "./Message/Message";
 import {
-    ActionsType, addMessageBody,
-    TypeMessage, updateNewMessageBody
+    ActionsType,
+    TypeMessage,
 } from "../../redux/state";
+import {addMessageBody, updateNewMessageBody} from "../../redux/messageReduser";
 
 
 type DialogsType = {
