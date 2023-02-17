@@ -3,21 +3,19 @@ import './App.css';
 import Header from "./components/Header/Header";
 import Navbar from "./components/Navbar/Navbar";
 import Profile from "./components/Profile/Profile";
-import Dialogs from "./components/Dialogs/Dialogs";
-import {BrowserRouter, Route} from "react-router-dom";
+import {Route} from "react-router-dom";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
-import {ActionsType, stateType, StoreType} from "./redux/state";
 import Friends from './components/Friends/Friends';
+import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 
 type AppType = {
-    appState: StoreType
-    dispatch: (action: ActionsType) => void
-}
-const App: React.FC<AppType> = ({appState, dispatch}) => {
+    store: any
 
-    console.log(appState._state.message.newMessageBody)
+}
+export const App: React.FC<AppType> = ({store}) => {
+
     return (
         <div className="app-wrapper">
             <Header/>
@@ -26,16 +24,12 @@ const App: React.FC<AppType> = ({appState, dispatch}) => {
             <div className="app-wrapper-content">
                 <Route path="/profile" render={() =>
                     <Profile
-                        profilePages={appState.getState().profile}
-                        dispatch={dispatch}
-                        /*addPost={addPost.bind(appState)}
-                        updateNewPostText={updateNewPostText.bind(appState)}*/
+                        store={store}
                     />}/>
 
                 <Route path="/messages" render={() =>
-                    <Dialogs
-                        message={appState.getState().message}
-                        dispatch={dispatch}
+                    <DialogsContainer
+                        store={store}
                     />}/>
 
                 <Route path="/news" render={() => <News/>}/>
@@ -46,5 +40,3 @@ const App: React.FC<AppType> = ({appState, dispatch}) => {
         </div>
     );
 }
-
-export default App;

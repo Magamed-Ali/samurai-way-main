@@ -1,6 +1,6 @@
 import {v1} from "uuid";
-import {addPostActionCreator, profileReduser, updateNewPostTextActionCreator} from "./profileReduser";
-import {addMessageBody, messageRedusser, updateNewMessageBody} from "./messageReduser";
+import {addPostActionCreator, profileReducer, updateNewPostTextActionCreator} from "./profileReducer";
+import {addMessageBody, messageReducer, updateNewMessageBody} from "./messageReducer";
 export const ADD_POST = "ADD-POST";
 export const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
 export const UPDATE_NEW_MESSAGE_BODY = "UPDATE-NEW-MESSAGE-BODY";
@@ -91,20 +91,16 @@ export let store: StoreType = {
             ],
             newMessageBody: "it-incubator"
         },
-
-
     },
     _callSubscriber(){
         console.log("5555")
     },
     subscribe(observer:  () => void) {
         this._callSubscriber = observer;
-        console.log("00009999")
     },
     getState(){
         return this._state;
     },
-
 
     /*addPost() {
         let newPost = {
@@ -120,8 +116,8 @@ export let store: StoreType = {
     },*/
 
     dispatch(action){
-        this._state.profile = profileReduser(this._state.profile, action);
-        this._state.message = messageRedusser(this._state.message, action);
+        this._state.profile = profileReducer(this._state.profile, action);
+        this._state.message = messageReducer(this._state.message, action);
 
         this._callSubscriber()
 

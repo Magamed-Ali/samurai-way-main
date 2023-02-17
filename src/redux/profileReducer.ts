@@ -2,10 +2,19 @@ import {
     ActionsType,
     ADD_POST, profileType,
     UPDATE_NEW_POST_TEXT
-} from "./state";
+} from "./store";
 import {v1} from "uuid";
 
-export const profileReduser = (state: profileType, action: ActionsType) => {
+let initialState = {
+        postsMessage: [
+            {id: v1(), message: "Hi, how are you?", likesCount: 12},
+            {id: v1(), message: "It`s my first post",  likesCount: 9},
+            {id: v1(), message: "Hello",  likesCount: 4}
+        ],
+        newPostText: "it-kamasutra"
+}
+export const profileReducer = (state: profileType = initialState, action: ActionsType) => {
+
     switch (action.type) {
         case ADD_POST:
             let newPost = {

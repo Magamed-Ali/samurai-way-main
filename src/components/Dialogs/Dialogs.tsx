@@ -5,26 +5,24 @@ import Message from "./Message/Message";
 import {
     ActionsType,
     TypeMessage,
-} from "../../redux/state";
-import {addMessageBody, updateNewMessageBody} from "../../redux/messageReduser";
+} from "../../redux/store";
+import {addMessageBody, updateNewMessageBody} from "../../redux/messageReducer";
 
 
 type DialogsType = {
-    message: TypeMessage
-    dispatch: (action: ActionsType) => void
+    updateNewMessageBody: (text: string) => void
+    sendMessage: () => void
+    dialogsPage: TypeMessage
 }
 
 function Dialogs(props: DialogsType) {
 
-    let textAreaValue: RefObject<HTMLTextAreaElement>  = React.createRef()
-
     const changeNewMessageBody = () => {
-        props.dispatch(addMessageBody())
+        props.sendMessage()
     }
 
     const onMessageChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        let actionMessage = updateNewMessageBody(e.currentTarget.value)
-        props.dispatch(actionMessage)
+        props.updateNewMessageBody(e.currentTarget.value)
     }
 
     return (
@@ -32,14 +30,14 @@ function Dialogs(props: DialogsType) {
             <div className={s.dialogs}>
                 <div className={s.dialogsItem}>
                     {
-                        props.message.dialogsData.map(item => (
+                        props.dialogsPage.dialogsData.map(item => (
                             <DialogItem name={item.name} id={item.id} img={item.img} key={item.id}/>)
                         )}
                 </div>
                 <div className={s.messages}>
                     <div>
                         {
-                            props.message.messagesData.map(mes => (
+                            props.dialogsPage.messagesData.map(mes => (
                                 <Message messages={mes.messages} key={mes.id}/>
                             ))
                         }
@@ -51,8 +49,7 @@ function Dialogs(props: DialogsType) {
             <div className={s.textareaBox}>
                 <textarea
                     onChange={onMessageChange}
-                    value={props.message.newMessageBody}
-                    ref={textAreaValue}
+                    value={props.dialogsPage.newMessageBody}
                     className={s.textareaText}>
 
                 </textarea>
