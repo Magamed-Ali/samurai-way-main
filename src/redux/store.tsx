@@ -102,25 +102,11 @@ export let store: StoreType = {
         return this._state;
     },
 
-    /*addPost() {
-        let newPost = {
-            id: v1(),
-            message: this._state.profile.newPostText,
-            likesCount: 0};
-        this._state.profile.postsMessage.push(newPost);
-        this._callSubscriber();
-    },
-    updateNewPostText(text: string) {
-        this._state.profile.newPostText = text;
-        this._callSubscriber();
-    },*/
-
     dispatch(action){
         this._state.profile = profileReducer(this._state.profile, action);
         this._state.message = messageReducer(this._state.message, action);
 
         this._callSubscriber()
-
     }
 }
 

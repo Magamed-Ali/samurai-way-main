@@ -11,7 +11,7 @@ import Friends from './components/Friends/Friends';
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 
 type AppType = {
-    store: any
+    store?: any
 
 }
 export const App: React.FC<AppType> = ({store}) => {

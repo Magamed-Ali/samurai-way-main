@@ -1,10 +1,11 @@
 import React from 'react';
 
 import {
-   StoreType
+    StoreType
 } from "../../redux/store";
 import {addMessageBody, updateNewMessageBody} from "../../redux/messageReducer";
 import Dialogs from "./Dialogs";
+import {StoreContext} from "../../StoreContext";
 
 
 type DialogsType = {
@@ -13,20 +14,27 @@ type DialogsType = {
 
 export function DialogsContainer(props: DialogsType) {
 
-    const changeNewMessageBody = () => {
-        props.store.dispatch(addMessageBody())
-    }
-
-    const onMessageChange = (text: string) => {
-        let actionMessage = updateNewMessageBody(text)
-        props.store.dispatch(actionMessage)
-    }
 
     return (
-        <Dialogs
-            updateNewMessageBody={onMessageChange}
-            sendMessage={changeNewMessageBody}
-            dialogsPage={props.store.getState().message}
-        />
+        <StoreContext.Consumer>
+            {(store) => {
+                const changeNewMessageBody = () => {
+                    store.dispatch(addMessageBody())
+                }
+
+                const onMessageChange = (text: string) => {
+                    let actionMessage = updateNewMessageBody(text)
+                    store.dispatch(actionMessage)
+                }
+                return <Dialogs
+                    updateNewMessageBody={onMessageChange}
+                    sendMessage={changeNewMessageBody}
+                    dialogsPage={store.getState().message}
+                />
+            }
+            }
+
+        </StoreContext.Consumer>
+
     );
 }
