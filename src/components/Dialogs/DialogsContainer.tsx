@@ -1,40 +1,32 @@
 import React from 'react';
-
-import {
-    StoreType
-} from "../../redux/store";
-import {addMessageBody, updateNewMessageBody} from "../../redux/messageReducer";
+import {addMessageBody, InitialStateType, updateNewMessageBody} from "../../redux/messageReducer";
 import Dialogs from "./Dialogs";
-import {StoreContext} from "../../StoreContext";
+import {connect} from "react-redux";
+import {AppStateType} from "../../redux/redux-store";
+import {Dispatch} from "redux";
 
-
-type DialogsType = {
-    store: StoreType
+type MapStatePropsType = {
+    dialogsPage: InitialStateType
+}
+type MyDispatchPropsType = {
+    updateNewMessageBody: (text: string) => void
+    sendMessage: () => void
+}
+export type DialogsContainerType = MapStatePropsType & MyDispatchPropsType
+let mapStateToProps = (state: AppStateType): MapStatePropsType => {
+    return {
+        dialogsPage: state.message
+    }
+}
+let mapDispatchToProps = (dispatch: Dispatch): MyDispatchPropsType => {
+    return {
+        updateNewMessageBody: (text: string) => {
+            dispatch(updateNewMessageBody(text))
+        },
+        sendMessage: () => {
+            dispatch(addMessageBody())
+        }
+    }
 }
 
-export function DialogsContainer(props: DialogsType) {
-
-
-    return (
-        <StoreContext.Consumer>
-            {(store) => {
-                const changeNewMessageBody = () => {
-                    store.dispatch(addMessageBody())
-                }
-
-                const onMessageChange = (text: string) => {
-                    let actionMessage = updateNewMessageBody(text)
-                    store.dispatch(actionMessage)
-                }
-                return <Dialogs
-                    updateNewMessageBody={onMessageChange}
-                    sendMessage={changeNewMessageBody}
-                    dialogsPage={store.getState().message}
-                />
-            }
-            }
-
-        </StoreContext.Consumer>
-
-    );
-}
+export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs)

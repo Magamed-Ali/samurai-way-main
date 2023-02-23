@@ -1,17 +1,31 @@
-import {
-    ActionsType,
-    ADD_MESSAGE_BODY,
-    TypeMessage,
-    UPDATE_NEW_MESSAGE_BODY
-} from "./store";
 import {v1} from "uuid";
+export const UPDATE_NEW_MESSAGE_BODY = "UPDATE-NEW-MESSAGE-BODY";
+export const ADD_MESSAGE_BODY = "ADD_MESSAGE_BODY";
+export type ActionsType =
+    ReturnType<typeof updateNewMessageBody> |
+    ReturnType<typeof addMessageBody>
 
-let initialState = {
+export type DialogType = {
+    id: string
+    name: string
+    img?: string
+}
+export type messagesType = {
+    id: string
+    messages: string
+}
+export type initialStateType = {
+    messagesData: Array<messagesType>
+    dialogsData: Array<DialogType>
+    newMessageBody: string
+}
+
+let initialState: initialStateType = {
         messagesData: [
             {id: v1(), messages: "Hi"},
             {id: v1(), messages: "How is your it-kamasutra?"},
             {id: v1(), messages: "Yo"}
-        ],
+        ] as Array<messagesType>,
         dialogsData: [
             {
                 id: v1(),
@@ -34,24 +48,27 @@ let initialState = {
                 img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQN_UPMuHHxl1ormDi6kJwtUjvj8ljwE1sHRE4-VvxaRn4CVePTra66NElbLMO_eEdeGeg&usqp=CAU"
             },
             {id: v1(), name: "Pasha", img: "https://m.ridus.ru/images/2018/9/17/818259/in_article_bb639eadfe.jpg"},
-        ],
-        newMessageBody: "it-incubator"
+        ] as Array<DialogType>,
+        newMessageBody: "it-incubator" as string
 }
-export const messageReducer = (state: TypeMessage = initialState, action: ActionsType) => {
+export type InitialStateType = typeof initialState
+export const messageReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
-        case "UPDATE-NEW-MESSAGE-BODY":
-            state.newMessageBody = action.newText;
-            return state;
-
-        case "ADD_MESSAGE_BODY":
+        case "UPDATE-NEW-MESSAGE-BODY": {
+            let copyState = {...state}
+            copyState.newMessageBody = action.newText;
+            return copyState;
+        }
+        case "ADD_MESSAGE_BODY": {
             let newMessage = {
                 id: v1(),
                 messages: state.newMessageBody
             }
-            state.messagesData.push(newMessage)
-            state.newMessageBody = "";
-            return state;
-
+            let copyState = {...state}
+            copyState.messagesData.push(newMessage)
+            copyState.newMessageBody = "";
+            return copyState;
+        }
         default: return state
     }
 }

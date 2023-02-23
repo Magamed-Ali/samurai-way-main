@@ -2,16 +2,12 @@ import React, {ChangeEvent, RefObject} from 'react';
 import s from './Dialogs.module.css'
 import DialogItem from "./DialogItem/DialogsItem";
 import Message from "./Message/Message";
-import {TypeMessage} from "../../redux/store";
+import {DialogsContainerType} from "./DialogsContainer";
 
 
-type DialogsType = {
-    updateNewMessageBody: (text: string) => void
-    sendMessage: () => void
-    dialogsPage: TypeMessage
-}
 
-function Dialogs(props: DialogsType) {
+function Dialogs(props: DialogsContainerType) {
+
 
     const changeNewMessageBody = () => {
         props.sendMessage()
@@ -34,7 +30,7 @@ function Dialogs(props: DialogsType) {
                     <div>
                         {
                             props.dialogsPage.messagesData.map(mes => (
-                                <Message messages={mes.messages} key={mes.id}/>
+                                <Message messages={mes.messages} key={mes.id} id={mes.id}/>
                             ))
                         }
                     </div>

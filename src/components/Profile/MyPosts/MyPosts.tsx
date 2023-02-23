@@ -1,14 +1,10 @@
 import React, {ChangeEvent, RefObject} from "react";
 import s from "./MyPosts.module.css";
 import Posts from "./Post/Posts";
-import {profileType} from "../../../redux/store";
+import {profileType} from "../../../redux/profileReducer";
+import {ProfilePagesType} from "./MyPostsContainer";
 
-type MyPost = {
-    updateNewPostText: (text: string) => void
-    newAddPost: () => void
-    profilePages: profileType
-}
-const MyPosts = (props: MyPost) => {
+const MyPosts = (props: ProfilePagesType) => {
 
     let newPostCreateElement: RefObject<HTMLTextAreaElement> = React.createRef()
 

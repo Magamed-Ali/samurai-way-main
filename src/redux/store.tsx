@@ -1,55 +1,52 @@
 import {v1} from "uuid";
-import {addPostActionCreator, profileReducer, updateNewPostTextActionCreator} from "./profileReducer";
-import {addMessageBody, messageReducer, updateNewMessageBody} from "./messageReducer";
-export const ADD_POST = "ADD-POST";
-export const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
-export const UPDATE_NEW_MESSAGE_BODY = "UPDATE-NEW-MESSAGE-BODY";
-export const ADD_MESSAGE_BODY = "ADD_MESSAGE_BODY"
+import {addPostActionCreator, updateNewPostTextActionCreator} from "./profileReducer";
+import {addMessageBody, updateNewMessageBody} from "./messageReducer";
 
-export type MessageType = {
+type MessageType = {
     messages: string
 }
-export type PostType = {
+type PostType = {
     id: string
     message: string
     likesCount: number
 }
-export type DialogType = {
+type DialogType = {
     id: string
     name: string
     img?: string
 }
-export type messagesType = {
+type messagesType = {
     id: string
     messages: string
 }
-export type profileType = {
+type profileType = {
     postsMessage: Array<PostType>
     newPostText: string
 }
-export type TypeMessage = {
+type TypeMessage = {
     messagesData: Array<messagesType>
     dialogsData: Array<DialogType>
     newMessageBody: string
 }
-export type stateType = {
+type stateType = {
     profile: profileType
     message: TypeMessage
 }
 
-export type ActionsType =
+type ActionsType =
     ReturnType<typeof addPostActionCreator> |
     ReturnType<typeof updateNewPostTextActionCreator> |
     ReturnType<typeof updateNewMessageBody> |
     ReturnType<typeof addMessageBody>
 
-export type StoreType = {
+type StoreType = {
     _state: stateType
     subscribe: (observer:  () => void) => void
     getState: () => stateType
     _callSubscriber: () => void
     dispatch: (action: ActionsType) => void
 }
+/*
 export let store: StoreType = {
     _state: {
         profile: {
@@ -109,6 +106,7 @@ export let store: StoreType = {
         this._callSubscriber()
     }
 }
+*/
 
 
 

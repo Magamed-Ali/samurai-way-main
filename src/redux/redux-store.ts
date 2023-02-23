@@ -3,11 +3,14 @@ import {profileReducer} from "./profileReducer";
 import {messageReducer} from "./messageReducer";
 
 
-export const reducers = combineReducers({
+
+export const rootReducer = combineReducers({
     profile: profileReducer,
     message: messageReducer
 
 }
 )
-export const store = createStore(reducers)
+
+export type AppStateType = ReturnType<typeof rootReducer>
+export const store = createStore(rootReducer)
 

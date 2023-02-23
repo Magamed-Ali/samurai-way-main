@@ -8,13 +8,10 @@ import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
 import Friends from './components/Friends/Friends';
-import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
+import { DialogsContainer } from './components/Dialogs/DialogsContainer';
 
-type AppType = {
-    store?: any
 
-}
-export const App: React.FC<AppType> = ({store}) => {
+export const App: React.FC = () => {
 
     return (
         <div className="app-wrapper">
@@ -23,14 +20,10 @@ export const App: React.FC<AppType> = ({store}) => {
 
             <div className="app-wrapper-content">
                 <Route path="/profile" render={() =>
-                    <Profile
-                        store={store}
-                    />}/>
+                    <Profile/>}/>
 
                 <Route path="/messages" render={() =>
-                    <DialogsContainer
-                        store={store}
-                    />}/>
+                    <DialogsContainer />}/>
 
                 <Route path="/news" render={() => <News/>}/>
                 <Route path="/music" render={() => <Music/>}/>
