@@ -25,9 +25,73 @@ a {
 .app-wrapper-content {
     grid-area: content;
     background-color: #506dff;
+}
+
+.users {
+    width: 80%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 20px 0;
+    color: #2f2f2f;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.users-block_left{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 20%;
+}
+
+.users-block_left img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+}
+.users-block_left button {
+    min-width: 90px;
+    margin-top: 10px;
+    display: inline-block;
+
+    background: rgba(255, 174, 2, 0.88);
+    padding: 4px 2px;
+    border-radius: 5px;
+    font-weight: 700;
+    user-select: none;
+    outline: none;
+    border: none;
+    transition: 0.2s;
+}
+
+.users-block_left button:hover {
+    background: rgb(128, 87, 0);
+    color: #a3cef5;
+}
+.users-block_left button:active {
+    background: #7e7404;
 
 }
 
+.users-block_right{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 60%;
+    height: 70px;
+    border: 1px solid #565555;
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 10px;
+}
 
+.users-fullName {
+    display: flex;
+    justify-content: space-between;
+}
 
-
+.users-status{
+    display: flex;
+    justify-content: space-between;
+}
