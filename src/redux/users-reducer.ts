@@ -1,16 +1,16 @@
 import {v1} from "uuid";
 
-type LocationType = {
-    city: string
-    country: string
+type PhotoType = {
+    small: null | string
+    large: null | string
 }
 export type PostType = {
     id: string
-    img: string
+    name: string
+    photos: PhotoType
     followed: boolean
     fullName: string
-    status: string
-    location: LocationType
+    status: string | null
 }
 export type profileType = {
     users: Array<PostType>
@@ -26,32 +26,7 @@ type AllFollowAC =
     ReturnType<typeof setUsersAC>
 
 let initialState: profileType = {
-    users: [
-        /*{
-            id: v1(),
-            img: "https://mediaaid.ru/upload/resize_cache/iblock/f26/375_264_2/7.jpg",
-            followed: true,
-            fullName: "Dmitry",
-            status: " I am s boss",
-            location: {city: "Minsk", country: "Belarus"}
-        },
-        {
-            id: v1(),
-            img: "https://mediaaid.ru/upload/resize_cache/iblock/f26/375_264_2/7.jpg",
-            followed: false,
-            fullName: "Ali",
-            status: " I am s Junior",
-            location: {city: "Argun", country: "Germany"}
-        },
-        {
-            id: v1(),
-            img: "https://mediaaid.ru/upload/resize_cache/iblock/f26/375_264_2/7.jpg",
-            followed: true,
-            fullName: "Isaa",
-            status: " I am s Master",
-            location: {city: "Grozny", country: "Austria"}
-        }*/
-    ],
+    users: [],
 }
 
 
