@@ -31,6 +31,11 @@ export class UsersC extends Component<UsersContainerType, valueType> {
     }
 
     componentDidMount() {
+        axios.get("https://social-network.samuraijs.com/api/1.0/users?count=10")
+            .then(response => {
+                this.props.setUsers(response.data.items)
+                console.log(response.data)
+            })
     }
     componentDidUpdate() {
     }
