@@ -20,9 +20,7 @@ export const App: React.FC = () => {
             <Navbar/>
 
             <div className="app-wrapper-content">
-                <Route exact path="/">
-                    <Redirect to="/profile" />
-                </Route>
+                <Route exact path="/" component={Profile} />
                 <Route path="/profile" render={() =>
                     <Profile/>}/>
 
