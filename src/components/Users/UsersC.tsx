@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import {UsersContainerType} from "./UsersContainer";
-import {v1} from "uuid";
+import s from './Users.module.css'
 import axios from "axios";
-import {number} from "prop-types";
 
 type valueType = {
     value: number
@@ -13,28 +12,21 @@ export class UsersC extends Component<UsersContainerType, valueType> {
         this.state = {
             value: 1
         }
-
-        this.addUsers = this.addUsers.bind(this);
-
+        this.CurrentPage = this.CurrentPage.bind(this);
     }
 
-    addUsers = () => {
-        axios.get("https://social-network.samuraijs.com/api/1.0/users?count=10")
-            .then(response => {
-                this.props.setUsers(response.data.items)
-                console.log(response.data)
-            })
-    }
+
 
     Followed = (i: any, id: string) => {
         i.followed ? this.props.unFollow(id) : this.props.follow(id)
     }
 
     componentDidMount() {
-        this.props.users && axios.get("https://social-network.samuraijs.com/api/1.0/users?count=10")
+        this.props.users && axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
             .then(response => {
                 this.props.setUsers(response.data.items)
-                console.log(response.data)
+                this.props.setTotalUserCounter(response.data.totalCount)
+                console.log(response.data.totalCount / 100)
             })
     }
     componentDidUpdate() {
@@ -42,14 +34,40 @@ export class UsersC extends Component<UsersContainerType, valueType> {
     componentWillUnmount() {
     }
 
-
-
+    CurrentPage = (item: number) => {
+        this.props.users && axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${item}&count=${this.props.pageSize}`)
+            .then(response => {
+                this.props.setUsers(response.data.items)
+                this.props.setCurrentPage(item)
+            })
+    }
     render() {
+
+        let pagesCount = this.props.totalUsersCount / this.props.pageSize;
+        let pages = [];
+
+        for (let i = 1; i <=  Math.ceil(pagesCount); i++) {
+            pages.push(i)
+        }
+
+
         return (
-            <div>Users{this.state.value}
-                <button onClick={this.addUsers}>add Users</button>
+            <div>
+                <div className={s.pagination}>
+                    {pages && pages.map(item =>{
+                            return (
+                                <span className={`${this.props.currentPage === item ? s.active : s.item}`}
+                                onClick={() => this.CurrentPage(item)}
+                                >{item}</span>
+                            )
+                        }).slice(0, 10)
+                    }
+                    <span>....</span>
+                </div>
+
+                {/*<button onClick={this.addUsers}>add Users</button>*/}
                 {
-                    this.props.users
+                    this.props.users/*.filter(i => i.photos.small !== null)*/
                         .map(i =>
                             <div className="users">
                             <span className="users-block_left">
