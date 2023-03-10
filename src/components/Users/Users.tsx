@@ -1,23 +1,27 @@
 import s from "./Users.module.css";
 import React, {Component} from "react";
 import {PostType} from "../../redux/users-reducer";
+import Loader from "../Loader/Loader";
 
 type UsersType = {
     pages: Array<number>
-    CurrentPage: (item: number)=> void
+    CurrentPage: (item: number) => void
     currentPage: number
     users: PostType[]
-    Followed: (i: any, id: string)=> void
+    Followed: (i: any, id: string) => void
+    isLoading: boolean
 }
-export class Users extends Component<UsersType>{
+
+export class Users extends Component<UsersType> {
     constructor(props: UsersType) {
         super(props);
     }
 
     render() {
+
         return <div>
             <div className={s.pagination}>
-                {this.props.pages && this.props.pages.map(item =>{
+                {this.props.pages && this.props.pages.map(item => {
                     return (
                         <span className={`${this.props.currentPage === item ? s.active : s.item}`}
                               onClick={() => this.props.CurrentPage(item)}
@@ -28,10 +32,11 @@ export class Users extends Component<UsersType>{
                 <span>....</span>
             </div>
 
+            {this.props.isLoading ? <Loader/> : null}
             {
-                this.props.users
-                    .map(i =>
-                        <div className="users">
+                    this.props.users
+                        .map(i =>
+                            <div className="users">
                             <span className="users-block_left">
                                  <img
                                      src={i.photos.small === null ? "https://mediaaid.ru/upload/resize_cache/iblock/f26/375_264_2/7.jpg"
@@ -40,7 +45,7 @@ export class Users extends Component<UsersType>{
                                         {i.followed ? "Followed" : "UnFollowed"}
                                     </button>
                             </span>
-                            <span className="users-block_right">
+                                <span className="users-block_right">
                                     <div className="users-fullName">
                                         <span>{i.name}</span>
                                         <span>{i.status}</span>
@@ -50,10 +55,13 @@ export class Users extends Component<UsersType>{
                                         <span>{i.location.city}</span>*/}
                                     </div>
                             </span>
-                        </div>
-                    )
+                            </div>
+                        )
+
+
             }
         </div>
+
     }
 }
 

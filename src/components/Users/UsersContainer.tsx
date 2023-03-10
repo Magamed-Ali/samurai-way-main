@@ -4,7 +4,7 @@ import {AppStateType} from "../../redux/redux-store";
 import {Dispatch} from "redux";
 import {
     currentPageAC,
-    followAC,
+    followAC, isLoadingAC,
     pageSizeAC,
     PostType,
     profileType,
@@ -33,8 +33,10 @@ class UsersContainer extends Component<UsersContainerType, valueType> {
     }
 
     componentDidMount() {
+        this.props.setIsLoading(true)
         this.props.users && axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
             .then(response => {
+                this.props.setIsLoading(false)
                 this.props.setUsers(response.data.items)
                 this.props.setTotalUserCounter(response.data.totalCount)
                 console.log(response.data.totalCount / 100)
@@ -48,8 +50,10 @@ class UsersContainer extends Component<UsersContainerType, valueType> {
     }
 
     CurrentPage = (item: number) => {
+        this.props.setIsLoading(true)
         this.props.users && axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${item}&count=${this.props.pageSize}`)
             .then(response => {
+                this.props.setIsLoading(false)
                 this.props.setUsers(response.data.items)
                 this.props.setCurrentPage(item)
             })
@@ -70,6 +74,7 @@ class UsersContainer extends Component<UsersContainerType, valueType> {
             currentPage={this.props.currentPage}
             users={this.props.users}
             Followed={this.Followed}
+            isLoading={this.props.isLoading}
         />
     }
 }
@@ -79,6 +84,7 @@ type MyMapStateToProps = {
     pageSize: number
     totalUsersCount: number
     currentPage: number
+    isLoading: boolean
 }
 type MyDispatchToProps = {
     follow: (userId: string) => void
@@ -87,6 +93,7 @@ type MyDispatchToProps = {
     setPageSize: (id: number) => void
     setCurrentPage: (id: number) => void
     setTotalUserCounter: (id: number) => void
+    setIsLoading: (load: boolean) => void
 }
 export type UsersContainerType = MyMapStateToProps & MyDispatchToProps
 const mapStateToProps = (state: AppStateType): MyMapStateToProps => {
@@ -94,7 +101,8 @@ const mapStateToProps = (state: AppStateType): MyMapStateToProps => {
         users: state.usersPage.users,
         pageSize: state.usersPage.pageSize,
         totalUsersCount: state.usersPage.totalUsersCount,
-        currentPage: state.usersPage.currentPage
+        currentPage: state.usersPage.currentPage,
+        isLoading: state.usersPage.isLoading
     }
 }
 
@@ -117,6 +125,9 @@ const dispatchStateToProps = (dispatch: Dispatch): MyDispatchToProps => {
         },
         setTotalUserCounter: (id: number) => {
             dispatch(totalUserCounterAC(id))
+        },
+        setIsLoading: (load: boolean) => {
+            dispatch(isLoadingAC(load))
         }
     }
 }

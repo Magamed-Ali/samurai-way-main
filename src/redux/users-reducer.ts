@@ -17,6 +17,7 @@ export type profileType = {
     pageSize: number
     totalUsersCount: number
     currentPage: number
+    isLoading: boolean
 }
 
 const FOLLOW = "FOLLOW";
@@ -25,6 +26,7 @@ const SET_USERS = "SET_USERS";
 const PAGE_SIZE = "PAGE_SIZE";
 const CURRENT_PAGE = "CURRENT_PAGE";
 const TOTAL_USER_COUNTER = "TOTAL_USER_COUNTER";
+const LOADING_PRELOADER = "LOADING_PRELOADER"
 
 type AllFollowAC =
     ReturnType<typeof followAC> |
@@ -32,13 +34,15 @@ type AllFollowAC =
     ReturnType<typeof setUsersAC> |
     ReturnType<typeof pageSizeAC> |
     ReturnType<typeof currentPageAC> |
-    ReturnType<typeof totalUserCounterAC>
+    ReturnType<typeof totalUserCounterAC> |
+    ReturnType<typeof isLoadingAC>
 
 let initialState: profileType = {
     users: [],
     pageSize: 50,
     totalUsersCount: 20,
-    currentPage: 1
+    currentPage: 1,
+    isLoading: true
 }
 
 
@@ -70,10 +74,20 @@ export const usersReducer = (state: profileType = initialState, action: AllFollo
             return {
                 ...state, totalUsersCount: action.payload.id
             }
+        case LOADING_PRELOADER:
+            return {
+                ...state, isLoading: action.loading
+            }
     }
     return state
 }
 
+export const isLoadingAC = (loading: boolean)=>{
+    return{
+        type: LOADING_PRELOADER,
+        loading
+    }as const
+}
 export const followAC = (newId: string) => {
     return {
         type: FOLLOW,
