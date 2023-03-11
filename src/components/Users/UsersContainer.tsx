@@ -7,7 +7,6 @@ import {
     followAC, isLoadingAC,
     pageSizeAC,
     PostType,
-    profileType,
     setUsersAC, totalUserCounterAC,
     unFollowAC
 } from "../../redux/users-reducer";
@@ -40,12 +39,6 @@ class UsersContainer extends Component<UsersContainerType, valueType> {
                 this.props.setUsersAC(response.data.items)
                 this.props.totalUserCounterAC(response.data.totalCount)
             })
-    }
-
-    componentDidUpdate() {
-    }
-
-    componentWillUnmount() {
     }
 
     CurrentPage = (item: number) => {

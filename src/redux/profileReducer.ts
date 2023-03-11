@@ -3,6 +3,7 @@ import {addMessageBody, updateNewMessageBody} from "./messageReducer";
 
 export const ADD_POST = "ADD-POST";
 export const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
+export const USERS_PROFILE = "USERS_PROFILE"
 type PostType = {
     id: string
     message: string
@@ -11,11 +12,13 @@ type PostType = {
 export type profileType = {
     postsMessage: Array<PostType>
     newPostText: string
+    profile: any
 }
 
 export type ActionsType =
     ReturnType<typeof addPostActionCreator> |
-    ReturnType<typeof updateNewPostTextActionCreator>
+    ReturnType<typeof updateNewPostTextActionCreator> |
+    ReturnType<typeof setUserProfileAC>
 
 
 let initialState: profileType = {
@@ -24,7 +27,8 @@ let initialState: profileType = {
         {id: v1(), message: "It`s my first post", likesCount: 9},
         {id: v1(), message: "Hello", likesCount: 4}
     ],
-    newPostText: "it-kamasutra"
+    newPostText: "it-kamasutra",
+    profile: "p[opopqsdopasiqdsd"
 }
 
 
@@ -47,6 +51,11 @@ export const profileReducer = (state: profileType = initialState, action: Action
             stateCopy.newPostText = action.newText;
             return stateCopy;
         }
+        case USERS_PROFILE: {
+            return {
+                ...state, profile: action.profile
+            }
+        }
         default:
             return state;
     }
@@ -60,3 +69,10 @@ export const updateNewPostTextActionCreator = (newText: string | "") => ({
     type: UPDATE_NEW_POST_TEXT,
     newText: newText
 } as const)
+export const setUserProfileAC = (profile: any) => {
+    return {
+        type: USERS_PROFILE,
+        profile
+    }as const
+}
+

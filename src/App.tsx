@@ -10,6 +10,7 @@ import Settings from "./components/Settings/Settings";
 import Friends from './components/Friends/Friends';
 import { DialogsContainer } from './components/Dialogs/DialogsContainer';
 import UsersContainer from "./components/Users/UsersContainer";
+import ProfileContainer from "./components/Profile/ProfileContainer";
 
 
 
@@ -24,7 +25,7 @@ export const App: React.FC = () => {
             <div className="app-wrapper-content">
                 <Route exact path="/" component={Profile} />
                 <Route path="/profile" render={() =>
-                    <Profile/>}/>
+                    <ProfileContainer />}/>
 
                 <Route path="/messages" render={() =>
                     <DialogsContainer />}/>

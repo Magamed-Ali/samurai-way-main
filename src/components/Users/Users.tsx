@@ -2,6 +2,7 @@ import s from "./Users.module.css";
 import React, {Component} from "react";
 import {PostType} from "../../redux/users-reducer";
 import Loader from "../Loader/Loader";
+import {NavLink} from "react-router-dom";
 
 type UsersType = {
     pages: Array<number>
@@ -38,9 +39,12 @@ export class Users extends Component<UsersType> {
                         .map(i =>
                             <div className="users">
                             <span className="users-block_left">
+                                <NavLink to={`/profile/${i.id}`}>
                                  <img
                                      src={i.photos.small === null ? "https://mediaaid.ru/upload/resize_cache/iblock/f26/375_264_2/7.jpg"
                                          : i.photos.small} alt=""/>
+                                    </NavLink>
+
                                     <button onClick={() => this.props.Followed(i, i.id)}>
                                         {i.followed ? "Followed" : "UnFollowed"}
                                     </button>
