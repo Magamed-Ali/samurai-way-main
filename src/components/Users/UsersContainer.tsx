@@ -43,7 +43,7 @@ class UsersContainer extends Component<UsersContainerType, valueType> {
 
     CurrentPage = (item: number) => {
         this.props.isLoadingAC(true)
-        this.props.users && axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${item}&count=${this.props.pageSize}`)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${item}&count=${this.props.pageSize}`)
             .then(response => {
                 this.props.isLoadingAC(false)
                 this.props.setUsersAC(response.data.items)

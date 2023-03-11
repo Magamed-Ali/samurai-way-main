@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import s from './ProfileInfo.module.css'
 import Loader from "../../Loader/Loader";
+import axios from "axios";
+import {useHistory, useLocation, useParams } from 'react-router-dom';
 
-import {useHistory, useLocation, useParams, useRouteMatch} from "react-router-dom";
 
 function ProfileInfo(props: any) {
-
 
     return (
         <div>
@@ -26,6 +26,8 @@ function ProfileInfo(props: any) {
                         </>
                         :
                         <Loader/>}
+                    <div>
+                    </div>
                 </div>
             </div>
         </div>
