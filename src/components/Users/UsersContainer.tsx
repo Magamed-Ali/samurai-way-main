@@ -9,7 +9,7 @@ import {
     PostType,
     profileType,
     setUsersAC, totalUserCounterAC,
-    UnFollowAC
+    unFollowAC
 } from "../../redux/users-reducer";
 import axios from "axios";
 import {Users} from "./Users";
@@ -29,17 +29,16 @@ class UsersContainer extends Component<UsersContainerType, valueType> {
 
 
     Followed = (i: any, id: string) => {
-        i.followed ? this.props.unFollow(id) : this.props.follow(id)
+        i.followed ? this.props.unFollowAC(id) : this.props.followAC(id)
     }
 
     componentDidMount() {
-        this.props.setIsLoading(true)
+        this.props.isLoadingAC(true)
         this.props.users && axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
             .then(response => {
-                this.props.setIsLoading(false)
-                this.props.setUsers(response.data.items)
-                this.props.setTotalUserCounter(response.data.totalCount)
-                console.log(response.data.totalCount / 100)
+                this.props.isLoadingAC(false)
+                this.props.setUsersAC(response.data.items)
+                this.props.totalUserCounterAC(response.data.totalCount)
             })
     }
 
@@ -50,12 +49,12 @@ class UsersContainer extends Component<UsersContainerType, valueType> {
     }
 
     CurrentPage = (item: number) => {
-        this.props.setIsLoading(true)
+        this.props.isLoadingAC(true)
         this.props.users && axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${item}&count=${this.props.pageSize}`)
             .then(response => {
-                this.props.setIsLoading(false)
-                this.props.setUsers(response.data.items)
-                this.props.setCurrentPage(item)
+                this.props.isLoadingAC(false)
+                this.props.setUsersAC(response.data.items)
+                this.props.currentPageAC(item)
             })
     }
 
@@ -87,13 +86,13 @@ type MyMapStateToProps = {
     isLoading: boolean
 }
 type MyDispatchToProps = {
-    follow: (userId: string) => void
-    unFollow: (userId: string) => void
-    setUsers: (users: any) => void
-    setPageSize: (id: number) => void
-    setCurrentPage: (id: number) => void
-    setTotalUserCounter: (id: number) => void
-    setIsLoading: (load: boolean) => void
+    followAC: (userId: string) => void
+    unFollowAC: (userId: string) => void
+    setUsersAC: (users: any) => void
+    pageSizeAC: (id: number) => void
+    currentPageAC: (id: number) => void
+    totalUserCounterAC: (id: number) => void
+    isLoadingAC: (load: boolean) => void
 }
 export type UsersContainerType = MyMapStateToProps & MyDispatchToProps
 const mapStateToProps = (state: AppStateType): MyMapStateToProps => {
@@ -105,9 +104,7 @@ const mapStateToProps = (state: AppStateType): MyMapStateToProps => {
         isLoading: state.usersPage.isLoading
     }
 }
-
-const dispatchStateToProps = (dispatch: Dispatch): MyDispatchToProps => {
-    return {
+/*const dispatchStateToProps = (dispatch: Dispatch): MyDispatchToProps => {return {
         follow: (userId: string) => {
             dispatch(followAC(userId))
         },
@@ -129,7 +126,16 @@ const dispatchStateToProps = (dispatch: Dispatch): MyDispatchToProps => {
         setIsLoading: (load: boolean) => {
             dispatch(isLoadingAC(load))
         }
-    }
-}
+    }}*/
 
-export default connect(mapStateToProps, dispatchStateToProps)(UsersContainer)
+export default connect(mapStateToProps,
+
+    {
+        followAC,
+        unFollowAC,
+        setUsersAC,
+        pageSizeAC,
+        currentPageAC,
+        totalUserCounterAC,
+        isLoadingAC
+    })(UsersContainer)

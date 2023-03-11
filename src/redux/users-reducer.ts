@@ -30,7 +30,7 @@ const LOADING_PRELOADER = "LOADING_PRELOADER"
 
 type AllFollowAC =
     ReturnType<typeof followAC> |
-    ReturnType<typeof UnFollowAC> |
+    ReturnType<typeof unFollowAC> |
     ReturnType<typeof setUsersAC> |
     ReturnType<typeof pageSizeAC> |
     ReturnType<typeof currentPageAC> |
@@ -96,7 +96,7 @@ export const followAC = (newId: string) => {
         }
     } as const
 }
-export const UnFollowAC = (newId: string) => {
+export const unFollowAC = (newId: string) => {
     return {
         type: UN_FOLLOW,
         payload: {
