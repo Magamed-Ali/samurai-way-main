@@ -44,8 +44,6 @@ let initialState: profileType = {
     currentPage: 1,
     isLoading: true
 }
-
-
 export const usersReducer = (state: profileType = initialState, action: AllFollowAC): profileType => {
     switch (action.type) {
         case FOLLOW:

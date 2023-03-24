@@ -1,0 +1,15 @@
+
+.modalAuth {
+    width: 100%;
+    height: 100vh;
+    background: rgba(5, 12, 38, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.authorization{
+    width: 40%;
+    height: 400px;
+    background: darkcyan;
+}

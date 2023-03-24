@@ -3,13 +3,15 @@ import React, {Component} from "react";
 import {PostType} from "../../redux/users-reducer";
 import Loader from "../Loader/Loader";
 import {NavLink} from "react-router-dom";
+import {usersAPI} from "../../api/api";
 
 type UsersType = {
     pages: Array<number>
     CurrentPage: (item: number) => void
     currentPage: number
     users: PostType[]
-    Followed: (i: any, id: string) => void
+    unFollowAC: (id: string) => void
+    followAC: (id: string) => void
     isLoading: boolean
 }
 
@@ -17,9 +19,9 @@ export class Users extends Component<UsersType> {
     constructor(props: UsersType) {
         super(props);
     }
-
     render() {
 
+        console.log("ttyy", this.props.users)
         return <div>
             <div className={s.pagination}>
                 {this.props.pages && this.props.pages.map(item => {
@@ -34,10 +36,11 @@ export class Users extends Component<UsersType> {
             </div>
 
             {this.props.isLoading ? <Loader/> : null}
+
             {
-                    this.props.users
-                        .map(i =>
-                            <div className="users">
+                this.props.users
+                    .map(i =>
+                        <div key={i.id} className="users">
                             <span className="users-block_left">
                                 <NavLink to={`/profile/${i.id}`}>
                                  <img
@@ -45,11 +48,33 @@ export class Users extends Component<UsersType> {
                                          : i.photos.small} alt=""/>
                                     </NavLink>
 
-                                    <button onClick={() => this.props.Followed(i, i.id)}>
-                                        {i.followed ? "Followed" : "UnFollowed"}
-                                    </button>
+                                {i.followed
+                                            ? <button onClick={() => {
+                                      /** api */
+                                      usersAPI.changeUnFollow(i.id)
+                                            .then(response => {
+                                                if(response.data.resultCode === 0){
+                                                    this.props.unFollowAC(i.id)
+                                                }
+                                            })
+                                    }
+                                            }>UnFollowed</button>
+                                            : <button onClick={() => {
+
+                                        /** api */
+                                        usersAPI.changeFollow(i.id)
+                                            .then(response => {
+                                                if(response.data.resultCode === 0){
+                                                    this.props.followAC(i.id)
+                                                }
+                                            })
+                                    }
+
+                                            }>Followed</button>
+                                        }
+
                             </span>
-                                <span className="users-block_right">
+                            <span className="users-block_right">
                                     <div className="users-fullName">
                                         <span>{i.name}</span>
                                         <span>{i.status}</span>
@@ -59,13 +84,10 @@ export class Users extends Component<UsersType> {
                                         <span>{i.location.city}</span>*/}
                                     </div>
                             </span>
-                            </div>
-                        )
-
-
+                        </div>
+                    )
             }
         </div>
-
     }
 }
 

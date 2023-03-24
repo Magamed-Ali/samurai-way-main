@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
-import {Dispatch} from "redux";
 import {
     currentPageAC,
     followAC, isLoadingAC,
@@ -10,8 +9,8 @@ import {
     setUsersAC, totalUserCounterAC,
     unFollowAC
 } from "../../redux/users-reducer";
-import axios from "axios";
 import {Users} from "./Users";
+import {usersAPI} from "../../api/api";
 
 type valueType = {
     value: number
@@ -25,32 +24,32 @@ class UsersContainer extends Component<UsersContainerType, valueType> {
         }
         this.CurrentPage = this.CurrentPage.bind(this);
     }
-
-
-    Followed = (i: any, id: string) => {
+    /*Followed = (i: any, id: string) => {
         i.followed ? this.props.unFollowAC(id) : this.props.followAC(id)
-    }
-
+    }*/
     componentDidMount() {
+
         this.props.isLoadingAC(true)
-        this.props.users && axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
-            .then(response => {
+
+        /** axios api*/
+        usersAPI.getUsers(this.props.currentPage, this.props.pageSize)
+            .then(data => {
                 this.props.isLoadingAC(false)
-                this.props.setUsersAC(response.data.items)
-                this.props.totalUserCounterAC(response.data.totalCount)
+                this.props.setUsersAC(data.items)
+                this.props.totalUserCounterAC(data.totalCount)
             })
     }
-
     CurrentPage = (item: number) => {
         this.props.isLoadingAC(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${item}&count=${this.props.pageSize}`)
-            .then(response => {
+
+        /** axios api*/
+        usersAPI.getUsers(item, this.props.pageSize)
+            .then(data => {
                 this.props.isLoadingAC(false)
-                this.props.setUsersAC(response.data.items)
+                this.props.setUsersAC(data.items)
                 this.props.currentPageAC(item)
             })
     }
-
     render() {
 
         let pagesCount = this.props.totalUsersCount / this.props.pageSize;
@@ -65,7 +64,8 @@ class UsersContainer extends Component<UsersContainerType, valueType> {
             CurrentPage={this.CurrentPage}
             currentPage={this.props.currentPage}
             users={this.props.users}
-            Followed={this.Followed}
+            unFollowAC={this.props.unFollowAC}
+            followAC={this.props.followAC}
             isLoading={this.props.isLoading}
         />
     }
