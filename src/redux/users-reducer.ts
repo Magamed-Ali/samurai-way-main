@@ -18,6 +18,7 @@ export type profileType = {
     totalUsersCount: number
     currentPage: number
     isLoading: boolean
+    followingInProgress: any[]
 }
 
 const FOLLOW = "FOLLOW";
@@ -26,7 +27,8 @@ const SET_USERS = "SET_USERS";
 const PAGE_SIZE = "PAGE_SIZE";
 const CURRENT_PAGE = "CURRENT_PAGE";
 const TOTAL_USER_COUNTER = "TOTAL_USER_COUNTER";
-const LOADING_PRELOADER = "LOADING_PRELOADER"
+const LOADING_PRELOADER = "LOADING_PRELOADER";
+const TOGGLE_IS_FOLLOWING_PROGRESS = "TOGGLE_IS_FOLLOWING_PROGRESS";
 
 type AllFollowAC =
     ReturnType<typeof followAC> |
@@ -35,14 +37,16 @@ type AllFollowAC =
     ReturnType<typeof pageSizeAC> |
     ReturnType<typeof currentPageAC> |
     ReturnType<typeof totalUserCounterAC> |
-    ReturnType<typeof isLoadingAC>
+    ReturnType<typeof isLoadingAC> |
+    ReturnType<typeof toggleFollowingProgressAC>
 
 let initialState: profileType = {
     users: [],
     pageSize: 50,
     totalUsersCount: 20,
     currentPage: 1,
-    isLoading: true
+    isLoading: true,
+    followingInProgress: []
 }
 export const usersReducer = (state: profileType = initialState, action: AllFollowAC): profileType => {
     switch (action.type) {
@@ -76,10 +80,17 @@ export const usersReducer = (state: profileType = initialState, action: AllFollo
             return {
                 ...state, isLoading: action.loading
             }
+        case TOGGLE_IS_FOLLOWING_PROGRESS:
+
+            return {
+                ...state,
+                followingInProgress: action.payload.isFetching
+                    ? [...state.followingInProgress, action.payload.userID]
+                    : [...state.followingInProgress.filter(id => id !== action.payload.userID)]
+            }
     }
     return state
 }
-
 export const isLoadingAC = (loading: boolean)=>{
     return{
         type: LOADING_PRELOADER,
@@ -131,6 +142,15 @@ export const totalUserCounterAC = (id: number) => {
         type: TOTAL_USER_COUNTER,
         payload: {
             id
+        }
+    }as const
+}
+export const toggleFollowingProgressAC = (isFetching: boolean, userID: any) => {
+    return{
+        type: TOGGLE_IS_FOLLOWING_PROGRESS,
+        payload: {
+            isFetching,
+            userID
         }
     }as const
 }

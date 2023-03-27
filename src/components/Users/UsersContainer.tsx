@@ -6,7 +6,7 @@ import {
     followAC, isLoadingAC,
     pageSizeAC,
     PostType,
-    setUsersAC, totalUserCounterAC,
+    setUsersAC, toggleFollowingProgressAC, totalUserCounterAC,
     unFollowAC
 } from "../../redux/users-reducer";
 import {Users} from "./Users";
@@ -67,6 +67,8 @@ class UsersContainer extends Component<UsersContainerType, valueType> {
             unFollowAC={this.props.unFollowAC}
             followAC={this.props.followAC}
             isLoading={this.props.isLoading}
+            toggleFollowingProgressAC={this.props.toggleFollowingProgressAC}
+            followingInProgress={this.props.followingInProgress}
         />
     }
 }
@@ -77,6 +79,7 @@ type MyMapStateToProps = {
     totalUsersCount: number
     currentPage: number
     isLoading: boolean
+    followingInProgress: any[]
 }
 type MyDispatchToProps = {
     followAC: (userId: string) => void
@@ -86,6 +89,7 @@ type MyDispatchToProps = {
     currentPageAC: (id: number) => void
     totalUserCounterAC: (id: number) => void
     isLoadingAC: (load: boolean) => void
+    toggleFollowingProgressAC: (isFetching: boolean, id: any) => void
 }
 export type UsersContainerType = MyMapStateToProps & MyDispatchToProps
 const mapStateToProps = (state: AppStateType): MyMapStateToProps => {
@@ -94,7 +98,8 @@ const mapStateToProps = (state: AppStateType): MyMapStateToProps => {
         pageSize: state.usersPage.pageSize,
         totalUsersCount: state.usersPage.totalUsersCount,
         currentPage: state.usersPage.currentPage,
-        isLoading: state.usersPage.isLoading
+        isLoading: state.usersPage.isLoading,
+        followingInProgress: state.usersPage.followingInProgress
     }
 }
 /*const dispatchStateToProps = (dispatch: Dispatch): MyDispatchToProps => {return {
@@ -130,5 +135,6 @@ export default connect(mapStateToProps,
         pageSizeAC,
         currentPageAC,
         totalUserCounterAC,
-        isLoadingAC
+        isLoadingAC,
+        toggleFollowingProgressAC
     })(UsersContainer)

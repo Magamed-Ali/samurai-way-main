@@ -1,6 +1,6 @@
 import s from "./Users.module.css";
 import React, {Component} from "react";
-import {PostType} from "../../redux/users-reducer";
+import {PostType, toggleFollowingProgressAC} from "../../redux/users-reducer";
 import Loader from "../Loader/Loader";
 import {NavLink} from "react-router-dom";
 import {usersAPI} from "../../api/api";
@@ -13,12 +13,15 @@ type UsersType = {
     unFollowAC: (id: string) => void
     followAC: (id: string) => void
     isLoading: boolean
+    followingInProgress: any[]
+    toggleFollowingProgressAC: (isFetching: boolean, id: any) => void
 }
 
 export class Users extends Component<UsersType> {
     constructor(props: UsersType) {
         super(props);
     }
+
     render() {
 
         console.log("ttyy", this.props.users)
@@ -49,29 +52,33 @@ export class Users extends Component<UsersType> {
                                     </NavLink>
 
                                 {i.followed
-                                            ? <button onClick={() => {
-                                      /** api */
-                                      usersAPI.changeUnFollow(i.id)
+                                    ? <button onClick={() => {
+                                        this.props.toggleFollowingProgressAC(true, i.id)
+
+                                        /** api */
+                                        usersAPI.changeUnFollow(i.id)
                                             .then(response => {
-                                                if(response.data.resultCode === 0){
+                                                if (response.data.resultCode === 0) {
                                                     this.props.unFollowAC(i.id)
                                                 }
+                                                this.props.toggleFollowingProgressAC(false, i.id)
                                             })
                                     }
-                                            }>UnFollowed</button>
-                                            : <button onClick={() => {
-
+                                    } disabled={this.props.followingInProgress.some(id => id === i.id)}>UnFollowed</button>
+                                    : <button onClick={() => {
+                                        this.props.toggleFollowingProgressAC(true, i.id)
                                         /** api */
                                         usersAPI.changeFollow(i.id)
                                             .then(response => {
-                                                if(response.data.resultCode === 0){
+                                                if (response.data.resultCode === 0) {
                                                     this.props.followAC(i.id)
                                                 }
+                                                this.props.toggleFollowingProgressAC(false, i.id)
                                             })
                                     }
 
-                                            }>Followed</button>
-                                        }
+                                    } disabled={this.props.followingInProgress.some(id => id === i.id)}>Followed</button>
+                                }
 
                             </span>
                             <span className="users-block_right">
