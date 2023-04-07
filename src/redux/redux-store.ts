@@ -4,7 +4,6 @@ import {messageReducer} from "./messageReducer";
 import {usersReducer} from "./users-reducer";
 import {reducerAuth} from "./auth-reducer";
 
-
 export const rootReducer = combineReducers({
         profile: profileReducer,
         message: messageReducer,
@@ -16,7 +15,6 @@ export const rootReducer = combineReducers({
 
 export type AppStateType = ReturnType<typeof rootReducer>
 export const store = createStore(rootReducer)
-
 
 // @ts-ignore
 window.store = store
