@@ -1,4 +1,5 @@
 import axios from "axios";
+import {followAC, toggleFollowingProgressAC, unFollowAC} from "../redux/users-reducer";
 
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
@@ -26,6 +27,15 @@ export const usersAPI = {
     },
     changeFollow(i: string) {
         return instance.post(`follow/${i}`, {}, )
+    },
+    follow(id: string){
+        /** api */
+        return this.changeFollow(id)
+    },
+    unfollow(id: string){
+        /** api */
+        return this.changeUnFollow(id)
+
     }
 
 }

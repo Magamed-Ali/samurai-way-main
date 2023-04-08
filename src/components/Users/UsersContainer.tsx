@@ -2,15 +2,12 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
 import {
-    currentPageAC,
-    followAC, isLoadingAC,
-    pageSizeAC,
+    followAC, followThunk, getUsersThunk, isLoadingAC,
     PostType,
-    setUsersAC, toggleFollowingProgressAC, totalUserCounterAC,
-    unFollowAC
+    toggleFollowingProgressAC, totalUserCounterAC,
+    unFollowAC, unFollowThunk
 } from "../../redux/users-reducer";
 import {Users} from "./Users";
-import {usersAPI} from "../../api/api";
 
 type valueType = {
     value: number
@@ -28,30 +25,13 @@ class UsersContainer extends Component<UsersContainerType, valueType> {
         i.followed ? this.props.unFollowAC(id) : this.props.followAC(id)
     }*/
     componentDidMount() {
-
-        this.props.isLoadingAC(true)
-
-        /** axios api*/
-        usersAPI.getUsers(this.props.currentPage, this.props.pageSize)
-            .then(data => {
-                this.props.isLoadingAC(false)
-                this.props.setUsersAC(data.items)
-                this.props.totalUserCounterAC(data.totalCount)
-            })
+        this.props.getUsersThunk(this.props.currentPage, this.props.pageSize)
     }
     CurrentPage = (item: number) => {
-        this.props.isLoadingAC(true)
-
-        /** axios api*/
-        usersAPI.getUsers(item, this.props.pageSize)
-            .then(data => {
-                this.props.isLoadingAC(false)
-                this.props.setUsersAC(data.items)
-                this.props.currentPageAC(item)
-            })
+        this.props.getUsersThunk(item, this.props.pageSize)
     }
-    render() {
 
+    render() {
         let pagesCount = this.props.totalUsersCount / this.props.pageSize;
         let pages = [];
 
@@ -64,11 +44,11 @@ class UsersContainer extends Component<UsersContainerType, valueType> {
             CurrentPage={this.CurrentPage}
             currentPage={this.props.currentPage}
             users={this.props.users}
-            unFollowAC={this.props.unFollowAC}
-            followAC={this.props.followAC}
             isLoading={this.props.isLoading}
             toggleFollowingProgressAC={this.props.toggleFollowingProgressAC}
             followingInProgress={this.props.followingInProgress}
+            followThunk={this.props.followThunk}
+            unFollowThunk={this.props.unFollowThunk}
         />
     }
 }
@@ -82,14 +62,10 @@ type MyMapStateToProps = {
     followingInProgress: any[]
 }
 type MyDispatchToProps = {
-    followAC: (userId: string) => void
-    unFollowAC: (userId: string) => void
-    setUsersAC: (users: any) => void
-    pageSizeAC: (id: number) => void
-    currentPageAC: (id: number) => void
-    totalUserCounterAC: (id: number) => void
-    isLoadingAC: (load: boolean) => void
     toggleFollowingProgressAC: (isFetching: boolean, id: any) => void
+    getUsersThunk: (currentPage: number, pageSize: number)=> void
+    followThunk: (id: string) => void
+    unFollowThunk: (id: string) => void
 }
 export type UsersContainerType = MyMapStateToProps & MyDispatchToProps
 const mapStateToProps = (state: AppStateType): MyMapStateToProps => {
@@ -129,12 +105,8 @@ const mapStateToProps = (state: AppStateType): MyMapStateToProps => {
 export default connect(mapStateToProps,
 
     {
-        followAC,
-        unFollowAC,
-        setUsersAC,
-        pageSizeAC,
-        currentPageAC,
-        totalUserCounterAC,
-        isLoadingAC,
-        toggleFollowingProgressAC
+        toggleFollowingProgressAC,
+        getUsersThunk,
+        followThunk,
+        unFollowThunk
     })(UsersContainer)

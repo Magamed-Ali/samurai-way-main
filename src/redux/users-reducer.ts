@@ -1,4 +1,6 @@
 import {v1} from "uuid";
+import {usersAPI} from "../api/api";
+import {Dispatch} from "redux";
 
 type PhotoType = {
     small: null | string
@@ -155,4 +157,43 @@ export const toggleFollowingProgressAC = (isFetching: boolean, userID: any) => {
     }as const
 }
 
+export const getUsersThunk = (currentPage: number, pageSize: number) => {
+    return (dispatch: Dispatch) => {
+        dispatch(isLoadingAC(true))
+        /** axios api*/
+        usersAPI.getUsers(currentPage, pageSize)
+            .then(data => {
+                dispatch(isLoadingAC(false))
+                dispatch(setUsersAC(data.items))
+                dispatch(totalUserCounterAC(data.totalCount))
+            })
+    }
+}
 
+export const followThunk = (id: string) => {
+    return (dispatch: Dispatch) => {
+        dispatch(toggleFollowingProgressAC(true, id))
+        /** axios api*/
+        usersAPI.follow(id)
+            .then(response => {
+                if (response.data.resultCode === 0) {
+                    dispatch(followAC(id))
+                }
+                dispatch(toggleFollowingProgressAC(false, id))
+            })
+    }
+}
+
+export const unFollowThunk = (id: string) => {
+    return (dispatch: Dispatch) => {
+        dispatch(toggleFollowingProgressAC(true, id))
+        /** axios api*/
+        usersAPI.unfollow(id)
+            .then(response => {
+                if (response.data.resultCode === 0) {
+                    dispatch(unFollowAC(id))
+                }
+                dispatch(toggleFollowingProgressAC(false, id))
+            })
+    }
+}
