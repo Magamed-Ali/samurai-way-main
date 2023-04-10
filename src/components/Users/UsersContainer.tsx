@@ -1,11 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
-import {
-    followAC, followThunk, getUsersThunk, isLoadingAC,
+import {followThunk, getUsersThunk,
     PostType,
-    toggleFollowingProgressAC, totalUserCounterAC,
-    unFollowAC, unFollowThunk
+    toggleFollowingProgressAC, unFollowThunk
 } from "../../redux/users-reducer";
 import {Users} from "./Users";
 
@@ -49,6 +47,7 @@ class UsersContainer extends Component<UsersContainerType, valueType> {
             followingInProgress={this.props.followingInProgress}
             followThunk={this.props.followThunk}
             unFollowThunk={this.props.unFollowThunk}
+
         />
     }
 }

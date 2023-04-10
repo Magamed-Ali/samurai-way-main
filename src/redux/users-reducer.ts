@@ -160,6 +160,7 @@ export const toggleFollowingProgressAC = (isFetching: boolean, userID: any) => {
 export const getUsersThunk = (currentPage: number, pageSize: number) => {
     return (dispatch: Dispatch) => {
         dispatch(isLoadingAC(true))
+        dispatch(currentPageAC(currentPage))
         /** axios api*/
         usersAPI.getUsers(currentPage, pageSize)
             .then(data => {

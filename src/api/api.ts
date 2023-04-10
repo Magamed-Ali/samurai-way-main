@@ -16,7 +16,7 @@ export const usersAPI = {
                 return response.data
             })
     },
-    getMe() {
+    getHeader() {
         return instance.get( `auth/me`, )
             .then(response => {
                 return response.data
@@ -36,25 +36,9 @@ export const usersAPI = {
         /** api */
         return this.changeUnFollow(id)
 
+    },
+    getProfile(id: any){
+       return  instance.get(`profile/${id}`);
     }
 
 }
-/*
-export const getUsers = (currentPage: any, pageSize: any) => {
-    return instance.get(`users?page=${currentPage}&count=${pageSize}`, )
-        .then(response => {
-            return response.data
-        })
-}
-export const getMe = () => {
-    return instance.get( `auth/me`, )
-        .then(response => {
-            return response.data
-        })
-}
-export const changeUnFollow = (i: string) => {
-    return instance.delete(`follow/${i}`, )
-}
-export const changeFollow = (i: string) => {
-    return instance.post(`follow/${i}`, {}, )
-}*/

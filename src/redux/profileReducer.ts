@@ -1,5 +1,7 @@
 import {v1} from "uuid";
 import {addMessageBody, updateNewMessageBody} from "./messageReducer";
+import {Dispatch} from "redux";
+import {usersAPI} from "../api/api";
 
 export const ADD_POST = "ADD-POST";
 export const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
@@ -69,10 +71,18 @@ export const updateNewPostTextActionCreator = (newText: string | "") => ({
     type: UPDATE_NEW_POST_TEXT,
     newText: newText
 } as const)
-export const setUserProfileAC = (profile: any) => {
+const setUserProfileAC = (profile: any) => {
     return {
         type: USERS_PROFILE,
         profile
     }as const
 }
 
+export const getUserProfileThink = (userid: any) => {
+    return (dispatch: Dispatch) => {
+        usersAPI.getProfile(userid)
+            .then(response => {
+                dispatch(setUserProfileAC(response.data))
+            })
+    }
+}

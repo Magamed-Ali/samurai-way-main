@@ -1,3 +1,6 @@
+import {usersAPI} from "../api/api";
+import {Dispatch} from "redux";
+
 const SET_USER_DATE = "SET_USER_DATE"
 
 type stateTypeAuth = {
@@ -19,7 +22,7 @@ type setUserAC = ReturnType<typeof setAuthUserAC>
 export const reducerAuth = (state: stateTypeAuth = initialState, action: actionType): stateTypeAuth => {
     switch (action.type) {
         case SET_USER_DATE:
-            debugger
+
             return (
                 {...state, ...action.payload}
         )
@@ -37,3 +40,17 @@ export const setAuthUserAC = (login: string, id: number, email: string) => {
         }
     } as const
 }
+
+export const getAuthUserThank = () => {
+    return (dispatch: Dispatch) => {
+        usersAPI.getHeader()
+            .then(data => {
+                if (data.resultCode === 0) {
+                    let {id, login, email} = data.data
+                    dispatch(setAuthUserAC(login, id, email))
+                }
+            })
+    }
+}
+
+

@@ -5,6 +5,7 @@ import {
 } from "../../redux/users-reducer";
 import Loader from "../Loader/Loader";
 import {NavLink} from "react-router-dom";
+import {log} from "util";
 
 type UsersType = {
     pages: Array<number>
@@ -25,7 +26,7 @@ export class Users extends Component<UsersType> {
 
     render() {
 
-        console.log("ttyy", this.props.users)
+        console.log("ttyy",this.props.currentPage, this.props.users)
         return <div>
             <div className={s.pagination}>
                 {this.props.pages && this.props.pages.map(item => {
