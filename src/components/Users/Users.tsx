@@ -4,8 +4,7 @@ import {
     PostType
 } from "../../redux/users-reducer";
 import Loader from "../Loader/Loader";
-import {NavLink} from "react-router-dom";
-import {log} from "util";
+import {NavLink, Redirect} from "react-router-dom";
 
 type UsersType = {
     pages: Array<number>
@@ -17,6 +16,7 @@ type UsersType = {
     toggleFollowingProgressAC: (isFetching: boolean, id: any) => void
     followThunk: (id: string) => void
     unFollowThunk: (id: string) => void
+    isAuth?: boolean
 }
 
 export class Users extends Component<UsersType> {
@@ -26,26 +26,27 @@ export class Users extends Component<UsersType> {
 
     render() {
 
-        console.log("ttyy",this.props.currentPage, this.props.users)
-        return <div>
-            <div className={s.pagination}>
-                {this.props.pages && this.props.pages.map(item => {
-                    return (
-                        <span className={`${this.props.currentPage === item ? s.active : s.item}`}
-                              onClick={() => this.props.CurrentPage(item)}
-                        >{item}</span>
-                    )
-                }).slice(0, 10)
-                }
-                <span>....</span>
-            </div>
+        if(!this.props.isAuth) return  <Redirect to="/login" />
 
-            {this.props.isLoading ? <Loader/> : null}
+            return (<div>
+                <div className={s.pagination}>
+                    {this.props.pages && this.props.pages.map(item => {
+                        return (
+                            <span className={`${this.props.currentPage === item ? s.active : s.item}`}
+                                  onClick={() => this.props.CurrentPage(item)}
+                            >{item}</span>
+                        )
+                    }).slice(0, 10)
+                    }
+                    <span>....</span>
+                </div>
 
-            {
-                this.props.users
-                    .map(i =>
-                        <div key={i.id} className="users">
+                {this.props.isLoading ? <Loader/> : null}
+
+                {
+                    this.props.users
+                        .map(i =>
+                            <div key={i.id} className="users">
                             <span className="users-block_left">
                                 <NavLink to={`/profile/${i.id}`}>
                                  <img
@@ -69,7 +70,7 @@ export class Users extends Component<UsersType> {
                                 }
 
                             </span>
-                            <span className="users-block_right">
+                                <span className="users-block_right">
                                     <div className="users-fullName">
                                         <span>{i.name}</span>
                                         <span>{i.status}</span>
@@ -79,10 +80,12 @@ export class Users extends Component<UsersType> {
                                         <span>{i.location.city}</span>*/}
                                     </div>
                             </span>
-                        </div>
-                    )
-            }
-        </div>
+                            </div>
+                        )
+                }
+            </div>)
+
+
     }
 }
 

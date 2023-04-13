@@ -47,7 +47,7 @@ class UsersContainer extends Component<UsersContainerType, valueType> {
             followingInProgress={this.props.followingInProgress}
             followThunk={this.props.followThunk}
             unFollowThunk={this.props.unFollowThunk}
-
+            isAuth={this.props.isAuth}
         />
     }
 }
@@ -59,6 +59,7 @@ type MyMapStateToProps = {
     currentPage: number
     isLoading: boolean
     followingInProgress: any[]
+    isAuth: boolean
 }
 type MyDispatchToProps = {
     toggleFollowingProgressAC: (isFetching: boolean, id: any) => void
@@ -74,7 +75,8 @@ const mapStateToProps = (state: AppStateType): MyMapStateToProps => {
         totalUsersCount: state.usersPage.totalUsersCount,
         currentPage: state.usersPage.currentPage,
         isLoading: state.usersPage.isLoading,
-        followingInProgress: state.usersPage.followingInProgress
+        followingInProgress: state.usersPage.followingInProgress,
+        isAuth: state.authUser.isAuth
     }
 }
 /*const dispatchStateToProps = (dispatch: Dispatch): MyDispatchToProps => {return {
