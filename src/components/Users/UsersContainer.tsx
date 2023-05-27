@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
-import {followThunk, getUsersThunk,
+import {
+    followThunk, getUsersThunk,
     PostType,
     toggleFollowingProgressAC, unFollowThunk
 } from "../../redux/users-reducer";
 import {Users} from "./Users";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
+import {compose} from 'redux';
+import {withRouter} from "react-router-dom";
 
 type valueType = {
     value: number
@@ -20,12 +23,14 @@ class UsersContainer extends Component<UsersContainerType, valueType> {
         }
         this.CurrentPage = this.CurrentPage.bind(this);
     }
+
     /*Followed = (i: any, id: string) => {
         i.followed ? this.props.unFollowAC(id) : this.props.followAC(id)
     }*/
     componentDidMount() {
         this.props.getUsersThunk(this.props.currentPage, this.props.pageSize)
     }
+
     CurrentPage = (item: number) => {
         this.props.getUsersThunk(item, this.props.pageSize)
     }
@@ -62,7 +67,7 @@ type MyMapStateToProps = {
 }
 type MyDispatchToProps = {
     toggleFollowingProgressAC: (isFetching: boolean, id: any) => void
-    getUsersThunk: (currentPage: number, pageSize: number)=> void
+    getUsersThunk: (currentPage: number, pageSize: number) => void
     followThunk: (id: string) => void
     unFollowThunk: (id: string) => void
 }
@@ -101,12 +106,22 @@ const mapStateToProps = (state: AppStateType): MyMapStateToProps => {
         }
     }}*/
 
-let AuthRedirectComponent = withAuthRedirect(UsersContainer)
-export default connect(mapStateToProps,
+/*export const withAuthRedirect(connect(mapStateToProps,
 
     {
         toggleFollowingProgressAC,
         getUsersThunk,
         followThunk,
         unFollowThunk
-    })(AuthRedirectComponent)
+    })(UsersContainer))*/
+
+export default compose<React.ComponentType>(
+    connect(mapStateToProps, {
+            toggleFollowingProgressAC,
+            getUsersThunk,
+            followThunk,
+            unFollowThunk
+        }),
+    withRouter,
+    withAuthRedirect
+)(UsersContainer)

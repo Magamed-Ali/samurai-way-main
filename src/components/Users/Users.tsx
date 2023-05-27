@@ -39,8 +39,6 @@ export class Users extends Component<UsersType> {
                     <span>....</span>
                 </div>
 
-                {this.props.isLoading ? <Loader/> : null}
-
                 {
                     this.props.users
                         .map(i =>

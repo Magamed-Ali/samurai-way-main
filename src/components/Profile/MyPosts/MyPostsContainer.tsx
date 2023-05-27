@@ -3,7 +3,9 @@ import {addPostActionCreator, profileType, updateNewPostTextActionCreator} from 
 import MyPosts from "./MyPosts";
 import {connect} from "react-redux";
 import {AppStateType} from "../../../redux/redux-store";
-import {Dispatch} from "redux";
+import {compose, Dispatch} from "redux";
+import {withAuthRedirect} from "../../../hoc/withAuthRedirect";
+import {withRouter} from "react-router-dom";
 
 
 type MapStatePropsType = {
@@ -35,4 +37,10 @@ let mapDispatchToProps = (dispatch: Dispatch): MapDispatchProps => {
     }
 }
 
-export const MyPostsContainer = connect(mapStateToProps, mapDispatchToProps)(MyPosts)
+/*export const MyPostsContainer = connect(mapStateToProps, mapDispatchToProps)(MyPosts)*/
+
+export default compose<React.ComponentType>(
+    connect(mapStateToProps, mapDispatchToProps),
+    withRouter,
+    withAuthRedirect
+)(MyPosts)

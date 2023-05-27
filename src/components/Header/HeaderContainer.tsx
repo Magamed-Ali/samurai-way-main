@@ -3,6 +3,9 @@ import Header from "./Header";
 import {connect} from "react-redux";
 import {getAuthUserThank} from "../../redux/auth-reducer";
 import {AppStateType} from "../../redux/redux-store";
+import {compose} from "redux";
+import {withRouter} from "react-router-dom";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 
 class HeaderContainer extends Component<UsersContainerType> {
     componentDidMount() {
@@ -17,8 +20,8 @@ class HeaderContainer extends Component<UsersContainerType> {
 type MyMapStateToProps = {
     email?: string
     id: number
-    isAuth: boolean
     login: string | null
+    isAuth: boolean
 }
 
 type MyDispatchToProps = {
@@ -28,9 +31,10 @@ type MyDispatchToProps = {
 export type UsersContainerType = MyMapStateToProps & MyDispatchToProps
 
 const mapStateToProps = (state: AppStateType): MyMapStateToProps => ({
-    isAuth: state.authUser.isAuth,
     login: state.authUser.login,
-    id: state.authUser.id
+    id: state.authUser.id,
+    isAuth: state.authUser.isAuth
 })
 
 export default connect(mapStateToProps, {getAuthUserThank})(HeaderContainer)
+

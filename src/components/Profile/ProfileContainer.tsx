@@ -1,13 +1,12 @@
 import React from "react";
 import Profile from "./Profile";
-import axios from "axios";
 import {connect} from "react-redux";
 import {AppStateType, store} from "../../redux/redux-store";
 import {getUserProfileThink} from "../../redux/profileReducer";
 import {Redirect, RouteComponentProps, withRouter} from "react-router-dom";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import Dialogs from "../Dialogs/Dialogs";
-
+import { compose } from "redux";
 
 type PathParamsType = {
     id: string
@@ -39,8 +38,10 @@ let mapStateToProps = (state: AppStateType): mapStateToPropsType  => {
     }
 }
 
-let WithUrlDataContainerComponent = withRouter(ProfileContainer)
+/*export default withAuthRedirect(withRouter(connect(mapStateToProps, {getUserProfileThink})(ProfileContainer)));*/
 
-let AuthRedirectComponent = withAuthRedirect(WithUrlDataContainerComponent)
-
-export default connect(mapStateToProps, {getUserProfileThink})(AuthRedirectComponent);
+export default compose<React.ComponentType>(
+    connect(mapStateToProps, {getUserProfileThink}),
+    withRouter,
+    withAuthRedirect
+)(ProfileContainer)
