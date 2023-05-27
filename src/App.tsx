@@ -15,33 +15,29 @@ import {Login} from "./components/Login/Login";
 
 export const App: React.FC = () => {
 
-    let a = false
 
     return (
         <>
-            {
-                a ? <Authorization/> :
-                    <div className="app-wrapper">
-                        <HeaderContainer/>
-                        <Navbar/>
-                        <div className="app-wrapper-content">
-                            <Route exact path="/" component={ProfileContainer}/>
-                            <Route path="/profile/:id?" render={() =>
-                                <ProfileContainer/>}/>
+            <div className="app-wrapper">
+                <HeaderContainer/>
+                <Navbar/>
+                <div className="app-wrapper-content">
+                    <Route exact path="/" component={ProfileContainer}/>
+                    <Route path="/profile/:id?" render={() =>
+                        <ProfileContainer/>}/>
 
-                            <Route path="/messages" render={() =>
-                                <DialogsContainer/>}/>
-                            <Route path="/users" render={() =>
-                                <UsersContainer/>}/>
+                    <Route path="/messages" render={() =>
+                        <DialogsContainer/>}/>
+                    <Route path="/users" render={() =>
+                        <UsersContainer/>}/>
 
-                            <Route path="/news" render={() => <News/>}/>
-                            <Route path="/music" render={() => <Music/>}/>
-                            <Route path="/settings" render={() => <Settings/>}/>
-                            <Route path="/friends" render={() => <Friends/>}/>
-                            <Route path="/login" render={() => <Login/>}/>
-                        </div>
-                    </div>
-            }
+                    <Route path="/news" render={() => <News/>}/>
+                    <Route path="/music" render={() => <Music/>}/>
+                    <Route path="/settings" render={() => <Settings/>}/>
+                    <Route path="/friends" render={() => <Friends/>}/>
+                    <Route path="/login" render={() => <Login/>}/>
+                </div>
+            </div>
         </>
     );
 }

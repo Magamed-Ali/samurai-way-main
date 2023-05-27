@@ -14,7 +14,7 @@ const Header = (props: any) => {
         <header className={s.header}>
             <img src="https://upload.wikimedia.org/wikipedia/commons/1/1e/RPC-JP_Logo.png" alt=""/>
             <div>
-                {props.isAuth ?
+                {!props.isAuth ?
                 <NavLink activeClassName={s.active} to={"login"} className={s.login}>Login</NavLink>
                     : <div>{props.id} - {props.login}</div>
                 }

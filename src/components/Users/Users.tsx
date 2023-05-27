@@ -26,8 +26,6 @@ export class Users extends Component<UsersType> {
 
     render() {
 
-        if(!this.props.isAuth) return  <Redirect to="/login" />
-
             return (<div>
                 <div className={s.pagination}>
                     {this.props.pages && this.props.pages.map(item => {

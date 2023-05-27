@@ -19,8 +19,6 @@ function Dialogs(props: DialogsContainerType) {
 
 
     return (
-        props.isAuth == false ? <Redirect to="/login" />
-            :
             <div>
                 <div className={s.dialogs}>
                     <div className={s.dialogsItem}>
@@ -37,8 +35,6 @@ function Dialogs(props: DialogsContainerType) {
                                 ))
                             }
                         </div>
-
-
                     </div>
                 </div>
                 <div className={s.textareaBox}>

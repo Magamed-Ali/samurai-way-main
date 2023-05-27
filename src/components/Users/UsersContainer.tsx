@@ -6,6 +6,7 @@ import {followThunk, getUsersThunk,
     toggleFollowingProgressAC, unFollowThunk
 } from "../../redux/users-reducer";
 import {Users} from "./Users";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 
 type valueType = {
     value: number
@@ -47,7 +48,6 @@ class UsersContainer extends Component<UsersContainerType, valueType> {
             followingInProgress={this.props.followingInProgress}
             followThunk={this.props.followThunk}
             unFollowThunk={this.props.unFollowThunk}
-            isAuth={this.props.isAuth}
         />
     }
 }
@@ -59,7 +59,6 @@ type MyMapStateToProps = {
     currentPage: number
     isLoading: boolean
     followingInProgress: any[]
-    isAuth: boolean
 }
 type MyDispatchToProps = {
     toggleFollowingProgressAC: (isFetching: boolean, id: any) => void
@@ -76,7 +75,6 @@ const mapStateToProps = (state: AppStateType): MyMapStateToProps => {
         currentPage: state.usersPage.currentPage,
         isLoading: state.usersPage.isLoading,
         followingInProgress: state.usersPage.followingInProgress,
-        isAuth: state.authUser.isAuth
     }
 }
 /*const dispatchStateToProps = (dispatch: Dispatch): MyDispatchToProps => {return {
@@ -103,6 +101,7 @@ const mapStateToProps = (state: AppStateType): MyMapStateToProps => {
         }
     }}*/
 
+let AuthRedirectComponent = withAuthRedirect(UsersContainer)
 export default connect(mapStateToProps,
 
     {
@@ -110,4 +109,4 @@ export default connect(mapStateToProps,
         getUsersThunk,
         followThunk,
         unFollowThunk
-    })(UsersContainer)
+    })(AuthRedirectComponent)
