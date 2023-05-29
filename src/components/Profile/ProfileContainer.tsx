@@ -25,6 +25,14 @@ class ProfileContainer extends React.Component<ProfileStateType & RouteComponent
         this.props.getStatusThink(id)
     }
 
+    componentDidUpdate(prevProps: Readonly<ProfileStateType & RouteComponentProps<PathParamsType>>, prevState: Readonly<{}>, snapshot?: any) {
+
+        if(prevProps.status !== this.props.status){
+            this.setState({
+                status: this.props.status
+            })
+        }
+    }
 
     render() {
 
