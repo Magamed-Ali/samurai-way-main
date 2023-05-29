@@ -6,7 +6,9 @@ import ProfileStatus from "./ProfileStatus";
 
 class ProfileInfo extends Component<any>{
 
+
     render() {
+
         return (
             <div>
                 <div className={s.content}>
@@ -14,9 +16,11 @@ class ProfileInfo extends Component<any>{
                         src="https://thumbs.dreamstime.com/b/cosmos-beauty-deep-space-elements-image-furnished-nasa-science-fiction-art-102581846.jpg"
                         alt="img"/>
                 </div>
+
                 <div className={s.descriptionBlock}>
-                    <ProfileStatus status={"Hello my frands"}/>
+                    <ProfileStatus status={this.props.status} updateStatusThink={this.props.updateStatusThink}/>
                     ava + description
+
 
                     <div style={{width: "100px", height: "150px"}}>
                         {typeof this.props.profile !== typeof "string" ?

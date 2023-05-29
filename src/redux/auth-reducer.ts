@@ -16,7 +16,7 @@ let initialState = {
     id: 0,
     email: "sd",
     login: "free",
-    isAuth: false
+    isAuth: true
 }
 
 type actionType = setUserAC | ChangeIsAuthAC
