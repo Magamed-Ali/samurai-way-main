@@ -43,6 +43,9 @@ display: grid;
     justify-content: end;
     vertical-align: center;
 }
+.textareaBox textarea{
+    width: 100%;
+}
 .textareaText{
     width: 70%;
 }

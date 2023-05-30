@@ -1,52 +1,56 @@
-import React, {ChangeEvent, RefObject} from 'react';
+import React from 'react';
 import s from './Dialogs.module.css'
 import DialogItem from "./DialogItem/DialogsItem";
 import Message from "./Message/Message";
 import {DialogsContainerType} from "./DialogsContainer";
-import {Redirect} from "react-router-dom";
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
 
+type DialogsType = {
+    newMessageBody: string
+}
 
 function Dialogs(props: DialogsContainerType) {
 
-
-    const changeNewMessageBody = () => {
-        props.sendMessage()
-    }
-
-    const onMessageChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.updateNewMessageBody(e.currentTarget.value)
+    const addNewMessage = (values: any) => {
+        props.sendMessage(values.newMessageBody)
     }
 
 
     return (
-            <div>
-                <div className={s.dialogs}>
-                    <div className={s.dialogsItem}>
-                        {
-                            props.dialogsPage.dialogsData.map(item => (
-                                <DialogItem name={item.name} id={item.id} img={item.img} key={item.id}/>)
-                            )}
-                    </div>
-                    <div className={s.messages}>
-                        <div>
-                            {
-                                props.dialogsPage.messagesData.map(mes => (
-                                    <Message messages={mes.messages} key={mes.id} id={mes.id}/>
-                                ))
-                            }
-                        </div>
-                    </div>
+        <div>
+            <div className={s.dialogs}>
+                <div className={s.dialogsItem}>
+                    {
+                        props.dialogsPage.dialogsData.map(item => (
+                            <DialogItem name={item.name} id={item.id} img={item.img} key={item.id}/>)
+                        )}
                 </div>
-                <div className={s.textareaBox}>
-                <textarea
-                    onChange={onMessageChange}
-                    value={props.dialogsPage.newMessageBody}
-                    className={s.textareaText}>
-
-                </textarea>
-                    <button onClick={changeNewMessageBody} className={s.textareaBtn}>add1</button>
+                <div className={s.messages}>
+                    <div>
+                        {
+                            props.dialogsPage.messagesData.map(mes => (
+                                <Message messages={mes.messages} key={mes.id} id={mes.id}/>
+                            ))
+                        }
+                    </div>
                 </div>
             </div>
+            <AddMessageFormRedux onSubmit={addNewMessage}/>
+        </div>
     )
 }
+
+const AddMessageForm: React.FC<InjectedFormProps<any>> = (props: any) => {
+    return (
+        <form onSubmit={props.handleSubmit} >
+            <div className={s.textareaBox} >
+                <Field component={"textarea"} name={"newMessageBody"} placeholder={"Enter your message"} />
+                <button  className={s.textareaBtn}>add1</button>
+            </div>
+        </form>
+    )
+}
+
+const AddMessageFormRedux = reduxForm({form: "AddMessageForm"})(AddMessageForm)
 export default Dialogs;
+

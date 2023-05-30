@@ -1,8 +1,6 @@
 import {v1} from "uuid";
-export const UPDATE_NEW_MESSAGE_BODY = "UPDATE-NEW-MESSAGE-BODY";
 export const ADD_MESSAGE_BODY = "ADD_MESSAGE_BODY";
 export type ActionsType =
-    ReturnType<typeof updateNewMessageBody> |
     ReturnType<typeof addMessageBody>
 
 export type DialogType = {
@@ -17,7 +15,7 @@ export type messagesType = {
 export type initialStateType = {
     messagesData: Array<messagesType>
     dialogsData: Array<DialogType>
-    newMessageBody: string
+    //newMessageBody: string
 }
 
 let initialState: initialStateType = {
@@ -49,38 +47,30 @@ let initialState: initialStateType = {
             },
             {id: v1(), name: "Pasha", img: "https://m.ridus.ru/images/2018/9/17/818259/in_article_bb639eadfe.jpg"},
         ] as Array<DialogType>,
-        newMessageBody: "it-incubator" as string
 }
 export type InitialStateType = typeof initialState
 export const messageReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
-        case "UPDATE-NEW-MESSAGE-BODY": {
-            let copyState = {...state}
-            copyState.newMessageBody = action.newText;
-            return copyState;
-        }
-        case "ADD_MESSAGE_BODY": {
-            let newMessage = {
+
+        case ADD_MESSAGE_BODY: {
+            /*let newMessage = {
                 id: v1(),
-                messages: state.newMessageBody
+                messages: action.text
             }
             let copyState = {...state}
             copyState.messagesData.push(newMessage)
-            copyState.newMessageBody = "";
-            return copyState;
+            copyState.newMessageBody = "";*/
+            return {
+                ...state, messagesData: [...state.messagesData, {id: v1(), messages: action.text}]
+            };
         }
         default: return state
     }
 }
 
-export const updateNewMessageBody = (newText: string) => {
-    return {
-        type: UPDATE_NEW_MESSAGE_BODY,
-        newText: newText
-    }as const
-}
-export const addMessageBody = () => {
+export const addMessageBody = (text: string) => {
     return {
         type: ADD_MESSAGE_BODY,
+        text
     }as const
 }

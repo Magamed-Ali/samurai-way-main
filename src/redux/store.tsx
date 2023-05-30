@@ -1,6 +1,6 @@
 import {v1} from "uuid";
-import {addPostActionCreator, updateNewPostTextActionCreator} from "./profileReducer";
-import {addMessageBody, updateNewMessageBody} from "./messageReducer";
+import {addPostActionCreator} from "./profileReducer";
+import {addMessageBody} from "./messageReducer";
 
 type MessageType = {
     messages: string
@@ -35,8 +35,6 @@ type stateType = {
 
 type ActionsType =
     ReturnType<typeof addPostActionCreator> |
-    ReturnType<typeof updateNewPostTextActionCreator> |
-    ReturnType<typeof updateNewMessageBody> |
     ReturnType<typeof addMessageBody>
 
 type StoreType = {

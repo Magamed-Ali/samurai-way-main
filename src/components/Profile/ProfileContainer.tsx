@@ -1,13 +1,11 @@
 import React from "react";
 import Profile from "./Profile";
 import {connect} from "react-redux";
-import {AppStateType, store} from "../../redux/redux-store";
+import {AppStateType} from "../../redux/redux-store";
 import {getStatusThink, getUserProfileThink, updateStatusThink} from "../../redux/profileReducer";
-import {Redirect, RouteComponentProps, withRouter} from "react-router-dom";
+import {RouteComponentProps, withRouter} from "react-router-dom";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
-import Dialogs from "../Dialogs/Dialogs";
 import { compose } from "redux";
-import {usersReducer} from "../../redux/users-reducer";
 
 type PathParamsType = {
     id: string

@@ -1,10 +1,8 @@
 import {v1} from "uuid";
-import {addMessageBody, updateNewMessageBody} from "./messageReducer";
 import {Dispatch} from "redux";
 import {profileAPI, usersAPI} from "../api/api";
 
 export const ADD_POST = "ADD-POST";
-export const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
 export const USERS_PROFILE = "USERS_PROFILE";
 export const SET_STATUS = "SET_STATUS"
 type PostType = {
@@ -21,7 +19,6 @@ export type profileType = {
 
 export type ActionsType =
     ReturnType<typeof addPostActionCreator> |
-    ReturnType<typeof updateNewPostTextActionCreator> |
     ReturnType<typeof setUserProfileAC> |
     ReturnType<typeof setStatusActionCreator>
 
@@ -43,20 +40,13 @@ export const profileReducer = (state: profileType = initialState, action: Action
         case ADD_POST: {
             let newPost = {
                 id: v1(),
-                message: state.newPostText,
+                message: action.newText,
                 likesCount: 0
             }
-            let stateCopy = {...state};
-            stateCopy.postsMessage = [...state.postsMessage]
-            stateCopy.postsMessage.push(newPost);
-            stateCopy.newPostText = ""
-            return stateCopy;
+
+            return {...state, postsMessage: [...state.postsMessage, newPost]};
         }
-        case UPDATE_NEW_POST_TEXT: {
-            let stateCopy = {...state}
-            stateCopy.newPostText = action.newText;
-            return stateCopy;
-        }
+
         case USERS_PROFILE: {
             return {
                 ...state, profile: action.profile
@@ -78,10 +68,6 @@ export const setStatusActionCreator = (status: string) => ({
 } as const)
 export const addPostActionCreator = (newText: string | "") => ({
     type: ADD_POST,
-    newText: newText
-} as const)
-export const updateNewPostTextActionCreator = (newText: string | "") => ({
-    type: UPDATE_NEW_POST_TEXT,
     newText: newText
 } as const)
 const setUserProfileAC = (profile: any) => {

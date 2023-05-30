@@ -1,30 +1,22 @@
-import React, {ChangeEvent, RefObject} from "react";
+import React from "react";
 import s from "./MyPosts.module.css";
 import Posts from "./Post/Posts";
-import {profileType} from "../../../redux/profileReducer";
 import {ProfilePagesType} from "./MyPostsContainer";
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
 
 const MyPosts = (props: ProfilePagesType) => {
 
-    let newPostCreateElement: RefObject<HTMLTextAreaElement> = React.createRef()
+   //let newPostCreateElement: RefObject<HTMLTextAreaElement> = React.createRef()
 
-    const onAddPost = () => {
-        props.newAddPost()
+    const onAddPost = (values: any) => {
+        props.newAddPost(values.newPostMessage)
+
     }
-    const onAddPostChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.updateNewPostText(e.currentTarget.value)
-    }
+
     return (
         <div className={s.postsBlock}>
             My posts
-            <div>
-                <div>
-                    <textarea value={props.profilePages.newPostText} onChange={onAddPostChange}
-                              ref={newPostCreateElement}></textarea>
-                </div>
-                <button onClick={onAddPost}>Add post</button>
-                <button>Remove</button>
-            </div>
+            <AddNewMessagePosts onSubmit={onAddPost}/>
             {
                 props.profilePages.postsMessage.map(post => (
                     <Posts message={post.message} key={post.id}/>
@@ -33,5 +25,19 @@ const MyPosts = (props: ProfilePagesType) => {
         </div>
     )
 }
+
+const AddMessageForm: React.FC<InjectedFormProps<any>> = (props: any) => {
+    return (
+        <form onSubmit={props.handleSubmit}>
+            <div>
+                <Field component={"textarea"} name={"newPostMessage"} placeholder={"Enter your message"}></Field>
+            </div>
+            <button>Add post</button>
+            <button>Remove</button>
+        </form>
+    )
+}
+
+const AddNewMessagePosts = reduxForm({form: "AddMessageForm"})(AddMessageForm)
 
 export default MyPosts;
