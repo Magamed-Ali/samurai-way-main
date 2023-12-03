@@ -1,9 +1,8 @@
 import React from 'react';
 
-function Music(props: any) {
+function Music() {
     return (
         <div>Music</div>
     );
 }
-
 export default Music;

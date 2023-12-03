@@ -8,13 +8,11 @@ import {Field, InjectedFormProps, reduxForm} from "redux-form";
 type DialogsType = {
     newMessageBody: string
 }
-
 function Dialogs(props: DialogsContainerType) {
 
     const addNewMessage = (values: any) => {
         props.sendMessage(values.newMessageBody)
     }
-
 
     return (
         <div>

@@ -6,7 +6,6 @@ type FormDataType = {
     password: string
     rememberMe: boolean
 }
-
 export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
     return (
         <form onChange={props.handleSubmit}>

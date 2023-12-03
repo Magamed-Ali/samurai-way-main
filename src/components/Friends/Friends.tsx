@@ -1,7 +1,6 @@
 import React from 'react';
-import s from "./friends.module.css"
 
-function Friends(props: any) {
+function Friends() {
     return (
         <div>
             Friends
