@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Settings(props: any) {
+function Settings() {
     return (
         <div>Settings</div>
     );

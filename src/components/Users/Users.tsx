@@ -80,8 +80,6 @@ export class Users extends Component<UsersType> {
                         )
                 }
             </div>)
-
-
     }
 }
 

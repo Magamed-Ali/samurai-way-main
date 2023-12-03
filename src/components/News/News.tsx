@@ -1,6 +1,6 @@
 import React from 'react';
 
-function News(props: any) {
+function News() {
     return (
         <div>News</div>
     );

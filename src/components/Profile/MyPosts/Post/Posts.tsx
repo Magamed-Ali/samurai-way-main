@@ -6,6 +6,7 @@ export type TypePost = {
     message: string
 }
 const Posts = (props: TypePost) => {
+
     return (
         <div className={s.posts}>
             <div className={s.item}>

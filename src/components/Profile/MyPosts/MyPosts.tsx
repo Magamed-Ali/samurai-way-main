@@ -32,7 +32,7 @@ const AddMessageForm: React.FC<InjectedFormProps<any>> = (props: any) => {
             <div>
                 <Field component={"textarea"} name={"newPostMessage"} placeholder={"Enter your message"}></Field>
             </div>
-            <button>Add post</button>
+            <button>Add post +</button>
             <button>Remove</button>
         </form>
     )

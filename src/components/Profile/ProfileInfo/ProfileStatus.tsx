@@ -6,7 +6,6 @@ class ProfileStatus extends React.Component<any> {
         editMode: false,
         status: this.props.status
     }
-
     activateEditMode = () => {
         this.setState({
             editMode: true,
@@ -24,7 +23,6 @@ class ProfileStatus extends React.Component<any> {
         this.setState({
             status: e.currentTarget.value
         })
-
     }
     render() {
         return (
@@ -41,13 +39,10 @@ class ProfileStatus extends React.Component<any> {
                             onChange={this.onStatusChange}
                             autoFocus={true}
                             onBlur={this.deActivateEditMode.bind(this)}/>
-                    </div>
-            }
+                    </div>}
             </div>
         );
     }
-
-
 }
 
 export default ProfileStatus;

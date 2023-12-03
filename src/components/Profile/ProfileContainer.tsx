@@ -33,7 +33,6 @@ class ProfileContainer extends React.Component<ProfileStateType & RouteComponent
     }
 
     render() {
-
         return <Profile {...this.props} profile={this.props.profile} status={this.props.status} updateStatusThink={this.props.updateStatusThink}/>
     }
 }

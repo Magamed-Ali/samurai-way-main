@@ -5,8 +5,6 @@ import ProfileStatus from "./ProfileStatus";
 
 
 class ProfileInfo extends Component<any>{
-
-
     render() {
 
         return (
@@ -16,12 +14,9 @@ class ProfileInfo extends Component<any>{
                         src="https://thumbs.dreamstime.com/b/cosmos-beauty-deep-space-elements-image-furnished-nasa-science-fiction-art-102581846.jpg"
                         alt="img"/>
                 </div>
-
                 <div className={s.descriptionBlock}>
                     <ProfileStatus status={this.props.status} updateStatusThink={this.props.updateStatusThink}/>
                     ava + description
-
-
                     <div style={{width: "100px", height: "150px"}}>
                         {typeof this.props.profile !== typeof "string" ?
                             <>
@@ -38,8 +33,6 @@ class ProfileInfo extends Component<any>{
             </div>
         );
     }
-
-
 }
 
 export default ProfileInfo;

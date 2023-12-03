@@ -1,7 +1,6 @@
 import {v1} from "uuid";
 import {Dispatch} from "redux";
 import {profileAPI, usersAPI} from "../api/api";
-
 export const ADD_POST = "ADD-POST";
 export const USERS_PROFILE = "USERS_PROFILE";
 export const SET_STATUS = "SET_STATUS"
@@ -21,7 +20,6 @@ export type ActionsType =
     ReturnType<typeof addPostActionCreator> |
     ReturnType<typeof setUserProfileAC> |
     ReturnType<typeof setStatusActionCreator>
-
 
 let initialState: profileType = {
     postsMessage: [
