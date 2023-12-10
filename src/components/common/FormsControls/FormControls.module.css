@@ -1,0 +1,11 @@
+
+
+/*.formControl, .error input,*/
+.formControl  textarea {
+    border: 2px solid #ff280d ;
+}
+
+/*
+.formControl, .error span {
+    border: 2px solid #ff280d ;
+}*/

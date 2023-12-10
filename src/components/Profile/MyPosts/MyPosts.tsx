@@ -3,7 +3,11 @@ import s from "./MyPosts.module.css";
 import Posts from "./Post/Posts";
 import {ProfilePagesType} from "./MyPostsContainer";
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
+import { maxLengthCreator, required} from "../../../utils/validation/validators";
+import {Textarea} from "../../common/FormsControls/FormsControls";
 
+
+let maxLength: any = maxLengthCreator(10)
 const MyPosts = (props: ProfilePagesType) => {
 
    //let newPostCreateElement: RefObject<HTMLTextAreaElement> = React.createRef()
@@ -30,7 +34,12 @@ const AddMessageForm: React.FC<InjectedFormProps<any>> = (props: any) => {
     return (
         <form onSubmit={props.handleSubmit}>
             <div>
-                <Field component={"textarea"} name={"newPostMessage"} placeholder={"Enter your message"}></Field>
+                <Field component={Textarea}
+                       name={"newPostMessage"}
+                       placeholder={"Enter your message"}
+                       validate={[required, maxLength]}>
+
+                </Field>
             </div>
             <button>Add post +</button>
             <button>Remove</button>
