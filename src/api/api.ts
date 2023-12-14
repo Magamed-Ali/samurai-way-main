@@ -16,12 +16,6 @@ export const usersAPI = {
                 return response.data
             })
     },
-    getHeader() {
-        return instance.get( `auth/me`, )
-            .then(response => {
-                return response.data
-            })
-    },
     changeUnFollow(i: string) {
         return instance.delete(`follow/${i}`, )
     },
@@ -51,5 +45,20 @@ export const profileAPI = {
     },
     updateStatus(status: any){
         return  instance.put(`profile/status`, {status});
+    }
+}
+
+export const authAPI = {
+    me(){
+        return instance.get(`auth/me`)
+            .then(response => {
+                return response.data
+            })
+    },
+    login(email: string, password: string, rememberMe: boolean = false){
+        return instance.post(`auth/login`, {email, password, rememberMe})
+    },
+    logout(){
+        return instance.delete(`auth/login`)
     }
 }

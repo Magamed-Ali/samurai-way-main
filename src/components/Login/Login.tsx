@@ -2,15 +2,21 @@ import React from "react"
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {Input} from "../common/FormsControls/FormsControls";
 import {maxLengthCreator, required} from "../../utils/validation/validators";
+import {connect} from "react-redux";
+import {loginAuth} from "../../redux/auth-reducer";
+import {Redirect} from "react-router-dom";
 
 type FormDataType = {
     login: string
     password: string
     rememberMe: boolean
 }
-
+type loginType = {
+    isAuth: boolean
+    loginAuth: (email: string, password: string, rememberMe: boolean) => void
+}
 const maxLength15 = maxLengthCreator(15)
-export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
+const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
     return (
         <form onChange={props.handleSubmit}>
             <div>
@@ -31,12 +37,22 @@ export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
 
 const LoginReduxForm= reduxForm<FormDataType>({form: "login"})(LoginForm)
 
-export const Login = () => {
+
+ const Login = (props: loginType) => {
     const onSubmit = (formData: FormDataType) => {
-        console.log("formData", formData)
+        props.loginAuth(formData.login, formData.password, formData.rememberMe)
+    }
+
+    if(props.isAuth){
+        return <Redirect to={'/profile'}/>
     }
     return (<>
         <h1>Login</h1>
         <LoginReduxForm onSubmit={onSubmit}/>
     </>)
 }
+
+const mapStateToProps = (state: any) => ({
+    isAuth: state.authUser.isAuth
+})
+export default connect(mapStateToProps, {loginAuth})(Login)

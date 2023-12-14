@@ -8,17 +8,17 @@ import Settings from "./components/Settings/Settings";
 import Friends from './components/Friends/Friends';
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
-import {Login} from "./components/Login/Login";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import UsersContainer from "./components/Users/UsersContainer";
+import Login from "./components/Login/Login";
+
 
 export const App: React.FC = () => {
-
 
     return (
         <>
             <div className="app-wrapper">
-                <HeaderContainer/>
+                <HeaderContainer />
                 <Navbar/>
                 <div className="app-wrapper-content">
                     <Route exact path="/" component={ProfileContainer}/>

@@ -1,8 +1,13 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import s from './Header.module.css'
 import {NavLink} from "react-router-dom";
 
 const Header = (props: any) => {
+    const onclickLogout = () => {
+        props.logout()
+    }
+
+
 
     return (
         <header className={s.header}>
@@ -10,7 +15,7 @@ const Header = (props: any) => {
             <div>
                 {!props.isAuth ?
                 <NavLink activeClassName={s.active} to={"login"} className={s.login}>Login</NavLink>
-                    : <div>{props.id} - {props.login}</div>
+                    : <div>{props.login}<button onClick={onclickLogout}>Logout</button></div>
                 }
             </div>
         </header>
