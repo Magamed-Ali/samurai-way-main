@@ -18,7 +18,7 @@ type loginType = {
 const maxLength15 = maxLengthCreator(15)
 const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
     return (
-        <form onChange={props.handleSubmit}>
+        <form onSubmit={props.handleSubmit}>
             <div>
                 <Field placeholder="login" name={'login'} component={Input} validate={[required]}/>
             </div>
@@ -26,7 +26,7 @@ const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
                 <Field placeholder={"password"} name={'password'} component={Input} validate={[required]}/>
             </div>
             <div>
-                <Field type="checkbox" name={'rememberMe'} component={Input}/> remember me
+                <Field type={"checkbox"} name={'rememberMe'} component={Input}/> remember me
             </div>
             <div>
                 <button>Login</button>
@@ -36,7 +36,6 @@ const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
 }
 
 const LoginReduxForm= reduxForm<FormDataType>({form: "login"})(LoginForm)
-
 
  const Login = (props: loginType) => {
     const onSubmit = (formData: FormDataType) => {
