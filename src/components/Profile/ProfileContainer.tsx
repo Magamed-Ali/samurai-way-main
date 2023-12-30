@@ -17,7 +17,8 @@ class ProfileContainer extends React.Component<ProfileStateType & RouteComponent
         let id = this.props.match.params.id
 
         if(!id){
-            id = "21244"
+            debugger
+            id = this.props.authorizedUserId
         }
         this.props.getUserProfileThink(id)
         this.props.getStatusThink(id)
@@ -33,13 +34,19 @@ class ProfileContainer extends React.Component<ProfileStateType & RouteComponent
     }
 
     render() {
-        return <Profile {...this.props} profile={this.props.profile} status={this.props.status} updateStatusThink={this.props.updateStatusThink}/>
+        return <Profile {...this.props}
+                        profile={this.props.profile}
+                        status={this.props.status}
+                        updateStatusThink={this.props.updateStatusThink}
+        />
     }
 }
 
 export type mapStateToPropsType = {
     profile: any
     status: string
+    authorizedUserId: any
+    isAuth: boolean
 }
 type mapDispatchToProps = {
     getUserProfileThink: (load: string) => void
@@ -50,7 +57,9 @@ type ProfileStateType = mapDispatchToProps & mapStateToPropsType
 let mapStateToProps = (state: AppStateType): mapStateToPropsType  => {
     return {
         profile: state.profile.profile,
-        status: state.profile.status
+        status: state.profile.status,
+        authorizedUserId: state.authUser.id,
+        isAuth: state.authUser.isAuth
     }
 }
 
