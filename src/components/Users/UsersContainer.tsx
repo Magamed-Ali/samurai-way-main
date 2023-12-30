@@ -122,6 +122,5 @@ export default compose<React.ComponentType>(
             followThunk,
             unFollowThunk
         }),
-    withRouter,
-    withAuthRedirect
+    withRouter
 )(UsersContainer)

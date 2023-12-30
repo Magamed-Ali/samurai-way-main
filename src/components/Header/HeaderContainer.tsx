@@ -8,11 +8,7 @@ import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {getAuthUserData, logout} from "../../redux/auth-reducer";
 
 class HeaderContainer extends Component<UsersContainerType> {
-    componentDidMount() {
 
-        /** axios api*/
-        this.props.getAuthUserData()
-    }
     render() {
         return <Header {...this.props}/>;
     }
@@ -24,7 +20,7 @@ type MyMapStateToProps = {
     isAuth: boolean
 }
 
-type MyDispatchToProps = {
+export type MyDispatchToProps = {
     getAuthUserData: () => void
     logout: () => void
 }

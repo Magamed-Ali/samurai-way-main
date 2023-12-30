@@ -17,8 +17,11 @@ class ProfileContainer extends React.Component<ProfileStateType & RouteComponent
         let id = this.props.match.params.id
 
         if(!id){
-            debugger
             id = this.props.authorizedUserId
+
+            if (!id) {
+                this.props.history.push("/login");
+            }
         }
         this.props.getUserProfileThink(id)
         this.props.getStatusThink(id)

@@ -67,6 +67,7 @@ export const getAuthUserData = () => {
                 }
             })
     }
+    return 'it-incubatir'
 }
 export const loginAuth = (email: string, password: string, rememberMe: boolean) => {
 

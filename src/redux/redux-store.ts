@@ -5,13 +5,15 @@ import {usersReducer} from "./users-reducer";
 import {reducerAuth} from "./auth-reducer";
 import thunkMiddleware from 'redux-thunk';
 import {reducer as formReducer} from 'redux-form'
+import {appReducer} from "./app-reducer";
 
 export const rootReducer = combineReducers({
         profile: profileReducer,
         message: messageReducer,
         usersPage: usersReducer,
         authUser: reducerAuth,
-        form: formReducer
+        form: formReducer,
+        appReducer: appReducer
 
     }
 )
