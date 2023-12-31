@@ -2,14 +2,23 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
 import {
-    followThunk, getUsersThunk,
+    followThunk,
+    getUsersThunk,
     PostType,
-    toggleFollowingProgressAC, unFollowThunk
+    toggleFollowingProgressAC,
+    unFollowThunk
 } from "../../redux/users-reducer";
 import {Users} from "./Users";
-import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from 'redux';
 import {withRouter} from "react-router-dom";
+import {
+    getCurrentPage,
+    getFollowingInProgress,
+    getIsLoading,
+    getPageSize,
+    getTotalUsersCount,
+    getUsers
+} from "../../redux/users-selectors";
 
 type valueType = {
     value: number
@@ -74,12 +83,12 @@ type MyDispatchToProps = {
 export type UsersContainerType = MyMapStateToProps & MyDispatchToProps
 const mapStateToProps = (state: AppStateType): MyMapStateToProps => {
     return {
-        users: state.usersPage.users,
-        pageSize: state.usersPage.pageSize,
-        totalUsersCount: state.usersPage.totalUsersCount,
-        currentPage: state.usersPage.currentPage,
-        isLoading: state.usersPage.isLoading,
-        followingInProgress: state.usersPage.followingInProgress,
+        users: getUsers(state),
+        pageSize: getPageSize(state),
+        totalUsersCount: getTotalUsersCount(state),
+        currentPage: getCurrentPage(state),
+        isLoading: getIsLoading(state),
+        followingInProgress: getFollowingInProgress(state),
     }
 }
 /*const dispatchStateToProps = (dispatch: Dispatch): MyDispatchToProps => {return {
