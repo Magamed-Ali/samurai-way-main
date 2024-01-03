@@ -84,6 +84,7 @@ export type UsersContainerType = MyMapStateToProps & MyDispatchToProps
 const mapStateToProps = (state: AppStateType): MyMapStateToProps => {
     return {
         users: getUsers(state),
+        //users: getUsers(state),
         pageSize: getPageSize(state),
         totalUsersCount: getTotalUsersCount(state),
         currentPage: getCurrentPage(state),

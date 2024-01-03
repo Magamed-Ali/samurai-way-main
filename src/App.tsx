@@ -26,8 +26,22 @@ class App extends  React.Component< {initialized: boolean, initializeApi: () => 
         this.props.initializeApi()
     }
     render() {
+
+        const arrCheck = (value: Array<any>) =>{
+
+            for(let i=0; i < value.length; i++){
+                if(Array.isArray(value[i])){
+                    return true
+                }
+            }
+            return false
+        }
+
+        console.log(arrCheck(['df','df']), "массив")
+
+
         if (!this.props.initialized) {
-            debugger
+
             return <Loader/>
         }
         return (
