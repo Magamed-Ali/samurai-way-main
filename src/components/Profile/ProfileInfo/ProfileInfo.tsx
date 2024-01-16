@@ -2,6 +2,7 @@ import React, {Component, useEffect, useState} from 'react';
 import s from './ProfileInfo.module.css'
 import Loader from "../../Loader/Loader";
 import ProfileStatus from "./ProfileStatus";
+import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 
 
 class ProfileInfo extends Component<any>{
@@ -15,7 +16,7 @@ class ProfileInfo extends Component<any>{
                         alt="img"/>
                 </div>
                 <div className={s.descriptionBlock}>
-                    <ProfileStatus status={this.props.status} updateStatusThink={this.props.updateStatusThink}/>
+                    <ProfileStatusWithHooks status={this.props.status} updateStatusThink={this.props.updateStatusThink}/>
                     ava + description
                     <div style={{width: "100px", height: "150px"}}>
                         {typeof this.props.profile !== typeof "string" ?
