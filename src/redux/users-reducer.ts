@@ -1,6 +1,6 @@
-import {v1} from "uuid";
 import {usersAPI} from "../api/api";
 import {Dispatch} from "redux";
+import {updateObjectInArray} from "../utils/object-helpers";
 
 type PhotoType = {
     small: null | string
@@ -32,7 +32,7 @@ const TOTAL_USER_COUNTER = "TOTAL_USER_COUNTER";
 const LOADING_PRELOADER = "LOADING_PRELOADER";
 const TOGGLE_IS_FOLLOWING_PROGRESS = "TOGGLE_IS_FOLLOWING_PROGRESS";
 
-type AllFollowAC =
+export type AllFollowAC =
     ReturnType<typeof followAC> |
     ReturnType<typeof unFollowAC> |
     ReturnType<typeof setUsersAC> |
@@ -53,18 +53,18 @@ let initialState: profileType = {
 export const usersReducer = (state: profileType = initialState, action: AllFollowAC): profileType => {
     switch (action.type) {
         case FOLLOW:
+
             return {
-                ...state, users: state.users
-                    .map(i => i.id === action.payload.id ? {...i, followed: true} : i)
-            }
+                ...state, users: updateObjectInArray(state.users, "id",  action.payload.id,  true)}
+
         case UN_FOLLOW:
+
             return {
-                ...state, users: state.users
-                    .map(i => i.id === action.payload.id ? {...i, followed: false}: i)
+                ...state, users: updateObjectInArray(state.users, "id",  action.payload.id,  false)
             }
         case SET_USERS:
             return {
-                ...state, users: [ ...action.payload.users]
+                ...state, users: [...action.payload.users]
             }
         case PAGE_SIZE:
             return {
@@ -93,13 +93,14 @@ export const usersReducer = (state: profileType = initialState, action: AllFollo
     }
     return state
 }
-export const isLoadingAC = (loading: boolean)=>{
-    return{
+export const isLoadingAC = (loading: boolean) => {
+    return {
         type: LOADING_PRELOADER,
         loading
-    }as const
+    } as const
 }
 export const followAC = (newId: string) => {
+
     return {
         type: FOLLOW,
         payload: {
@@ -108,93 +109,130 @@ export const followAC = (newId: string) => {
     } as const
 }
 export const unFollowAC = (newId: string) => {
+
     return {
         type: UN_FOLLOW,
         payload: {
             id: newId
         }
-    }as const
+    } as const
 }
 export const setUsersAC = (users: PostType[]) => {
-    return{
+    return {
         type: SET_USERS,
         payload: {
             users
         }
-    }as const
+    } as const
 }
 export const pageSizeAC = (id: number) => {
-    return{
+    return {
         type: PAGE_SIZE,
         payload: {
             id
         }
-    }as const
+    } as const
 }
 export const currentPageAC = (id: number) => {
-    return{
+    return {
         type: CURRENT_PAGE,
         payload: {
             id
         }
-    }as const
+    } as const
 }
 export const totalUserCounterAC = (id: number) => {
-    return{
+    return {
         type: TOTAL_USER_COUNTER,
         payload: {
             id
         }
-    }as const
+    } as const
 }
 export const toggleFollowingProgressAC = (isFetching: boolean, userID: any) => {
-    return{
+    return {
         type: TOGGLE_IS_FOLLOWING_PROGRESS,
         payload: {
             isFetching,
             userID
         }
-    }as const
+    } as const
 }
 
 export const getUsersThunk = (currentPage: number, pageSize: number) => {
-    return (dispatch: Dispatch) => {
+    return async (dispatch: Dispatch) => {
         dispatch(isLoadingAC(true))
         dispatch(currentPageAC(currentPage))
         /** axios api*/
-        usersAPI.getUsers(currentPage, pageSize)
-            .then(data => {
-                dispatch(isLoadingAC(false))
-                dispatch(setUsersAC(data.items))
-                dispatch(totalUserCounterAC(data.totalCount))
-            })
+
+        const data = await usersAPI.getUsers(currentPage, pageSize)
+        dispatch(isLoadingAC(false))
+        dispatch(setUsersAC(data.items))
+        dispatch(totalUserCounterAC(data.totalCount))
     }
 }
 
+const followUnfollow = async (dispatch: Dispatch, apiMethod: any, id: string, actionCreator: any) => {
+    dispatch(toggleFollowingProgressAC(true, id))
+
+    try {
+        const response = await apiMethod(id)
+        if ((response as any).data.resultCode === 0) {
+            dispatch(actionCreator(id))
+        }
+    } catch (error) {
+        console.error("Error in followUnfollow:", error)
+    }
+
+    dispatch(toggleFollowingProgressAC(false, id))
+}
+
 export const followThunk = (id: string) => {
-    return (dispatch: Dispatch) => {
+    return async (dispatch: Dispatch) => {
         dispatch(toggleFollowingProgressAC(true, id))
         /** axios api*/
-        usersAPI.follow(id)
-            .then(response => {
-                if (response.data.resultCode === 0) {
-                    dispatch(followAC(id))
-                }
-                dispatch(toggleFollowingProgressAC(false, id))
-            })
+
+        followUnfollow(dispatch, usersAPI.follow.bind(usersAPI), id, followAC)
     }
 }
 
 export const unFollowThunk = (id: string) => {
-    return (dispatch: Dispatch) => {
+    return async (dispatch: Dispatch) => {
         dispatch(toggleFollowingProgressAC(true, id))
         /** axios api*/
-        usersAPI.unfollow(id)
-            .then(response => {
-                if (response.data.resultCode === 0) {
-                    dispatch(unFollowAC(id))
-                }
-                dispatch(toggleFollowingProgressAC(false, id))
-            })
+
+        followUnfollow(dispatch, usersAPI.unfollow.bind(usersAPI), id, unFollowAC)
     }
 }
+
+/*const followUnfollow = async (dispatch: Dispatch, apiMethod: (id: string) =>  Promise<unknown>, id: string, actionCreator: (id: string) =>  AnyAction) => {
+    dispatch(toggleFollowingProgressAC(true, id))
+    /!** axios api*!/
+
+    const response = await apiMethod(id)
+    if (response.data.resultCode === 0) {
+        dispatch(actionCreator(id))
+    }
+    dispatch(toggleFollowingProgressAC(false, id))
+}
+export const followThunk = (id: string) => {
+    return async (dispatch: Dispatch) => {
+        dispatch(toggleFollowingProgressAC(true, id))
+        /!** axios api*!/
+        const apiMethod = usersAPI.follow.bind(usersAPI)
+        const actionCreator = followAC;
+
+        followUnfollow(dispatch, apiMethod(id), id, actionCreator(id))
+    }
+}
+
+export const unFollowThunk = (id: string) => {
+    return async (dispatch: Dispatch) => {
+        dispatch(toggleFollowingProgressAC(true, id))
+        /!** axios api*!/
+        const apiMethod = usersAPI.unfollow.bind(usersAPI)
+        const actionCreator = unFollowAC;
+
+        followUnfollow(dispatch, apiMethod(id), id, actionCreator(id))
+    }
+}*/

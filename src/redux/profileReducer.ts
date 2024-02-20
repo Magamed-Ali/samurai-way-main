@@ -1,6 +1,7 @@
 import {v1} from "uuid";
 import {Dispatch} from "redux";
 import {profileAPI, usersAPI} from "../api/api";
+
 export const ADD_POST = "ADD-POST";
 export const USERS_PROFILE = "USERS_PROFILE";
 export const SET_STATUS = "SET_STATUS";
@@ -33,7 +34,6 @@ let initialState: profileType = {
     profile: "21244",
     status: ""
 }
-
 
 export const profileReducer = (state: profileType = initialState, action: ActionsType): profileType => {
     switch (action.type) {
@@ -89,30 +89,23 @@ export const deletePostAC = (postId: string) => {
 }
 
 export const getStatusThink = (userid: any) => {
-    return (dispatch: Dispatch) => {
-        profileAPI.getStatus(userid)
-            .then(response => {
-
-                dispatch(setStatusActionCreator(response.data))
-            })
+    return async (dispatch: Dispatch) => {
+        const response = await profileAPI.getStatus(userid)
+        dispatch(setStatusActionCreator(response.data))
     }
 }
 export const updateStatusThink = (status: string) => {
-    return (dispatch: Dispatch) => {
-        profileAPI.updateStatus(status)
-            .then(response => {
-                if(response.data.resultCode === 0){
-                    console.log(response.data)
-                    dispatch(setStatusActionCreator(status))
-                }
-            })
+    return async (dispatch: Dispatch) => {
+        const response = await profileAPI.updateStatus(status)
+        if (response.data.resultCode === 0) {
+            console.log(response.data)
+            dispatch(setStatusActionCreator(status))
+        }
     }
 }
 export const getUserProfileThink = (userid: any) => {
-    return (dispatch: Dispatch) => {
-        usersAPI.getProfile(userid)
-            .then(response => {
-                dispatch(setUserProfileAC(response.data))
-            })
+    return async (dispatch: Dispatch) => {
+        const response = await usersAPI.getProfile(userid)
+        dispatch(setUserProfileAC(response.data))
     }
 }
