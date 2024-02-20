@@ -33,19 +33,31 @@ class UsersContainer extends Component<UsersContainerType, valueType> {
         this.CurrentPage = this.CurrentPage.bind(this);
     }
 
-    /*Followed = (i: any, id: string) => {
-        i.followed ? this.props.unFollowAC(id) : this.props.followAC(id)
-    }*/
     componentDidMount() {
-        this.props.getUsersThunk(this.props.currentPage, this.props.pageSize)
+        const {currentPage, pageSize} = this.props
+
+        this.props.getUsersThunk(currentPage, pageSize)
     }
 
     CurrentPage = (item: number) => {
-        this.props.getUsersThunk(item, this.props.pageSize)
+        const {getUsersThunk, pageSize} = this.props
+        getUsersThunk(item, pageSize)
     }
 
     render() {
-        let pagesCount = this.props.totalUsersCount / this.props.pageSize;
+        const {
+            totalUsersCount,
+            pageSize,
+            currentPage,
+            users,
+            isLoading,
+            followingInProgress,
+            toggleFollowingProgressAC,
+            followThunk,
+            unFollowThunk
+        } = this.props
+
+        let pagesCount = totalUsersCount / pageSize;
         let pages = [];
 
         for (let i = 1; i <= Math.ceil(pagesCount); i++) {
@@ -55,13 +67,13 @@ class UsersContainer extends Component<UsersContainerType, valueType> {
         return <Users
             pages={pages}
             CurrentPage={this.CurrentPage}
-            currentPage={this.props.currentPage}
-            users={this.props.users}
-            isLoading={this.props.isLoading}
-            toggleFollowingProgressAC={this.props.toggleFollowingProgressAC}
-            followingInProgress={this.props.followingInProgress}
-            followThunk={this.props.followThunk}
-            unFollowThunk={this.props.unFollowThunk}
+            currentPage={currentPage}
+            users={users}
+            isLoading={isLoading}
+            toggleFollowingProgressAC={toggleFollowingProgressAC}
+            followingInProgress={followingInProgress}
+            followThunk={followThunk}
+            unFollowThunk={unFollowThunk}
         />
     }
 }
@@ -92,45 +104,13 @@ const mapStateToProps = (state: AppStateType): MyMapStateToProps => {
         followingInProgress: getFollowingInProgress(state),
     }
 }
-/*const dispatchStateToProps = (dispatch: Dispatch): MyDispatchToProps => {return {
-        follow: (userId: string) => {
-            dispatch(followAC(userId))
-        },
-        unFollow: (userId: string) => {
-            dispatch(UnFollowAC(userId))
-        },
-        setUsers: (users: any) => {
-            dispatch(setUsersAC(users))
-        },
-        setPageSize: (id: number) => {
-          dispatch(pageSizeAC(id))
-        },
-        setCurrentPage: (id: number)=> {
-            dispatch(currentPageAC(id))
-        },
-        setTotalUserCounter: (id: number) => {
-            dispatch(totalUserCounterAC(id))
-        },
-        setIsLoading: (load: boolean) => {
-            dispatch(isLoadingAC(load))
-        }
-    }}*/
 
-/*export const withAuthRedirect(connect(mapStateToProps,
-
-    {
+export default compose<React.ComponentType>(
+    connect(mapStateToProps, {
         toggleFollowingProgressAC,
         getUsersThunk,
         followThunk,
         unFollowThunk
-    })(UsersContainer))*/
-
-export default compose<React.ComponentType>(
-    connect(mapStateToProps, {
-            toggleFollowingProgressAC,
-            getUsersThunk,
-            followThunk,
-            unFollowThunk
-        }),
+    }),
     withRouter
 )(UsersContainer)

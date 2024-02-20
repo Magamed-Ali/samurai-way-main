@@ -1,13 +1,12 @@
-import React, {Component, useEffect, useState} from 'react';
+import React, {Component} from 'react';
 import s from './ProfileInfo.module.css'
 import Loader from "../../Loader/Loader";
-import ProfileStatus from "./ProfileStatus";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 
-
-class ProfileInfo extends Component<any>{
+class ProfileInfo extends Component<any> {
     render() {
 
+        const {status, updateStatusThink, profile} = this.props
         return (
             <div>
                 <div className={s.content}>
@@ -16,14 +15,14 @@ class ProfileInfo extends Component<any>{
                         alt="img"/>
                 </div>
                 <div className={s.descriptionBlock}>
-                    <ProfileStatusWithHooks status={this.props.status} updateStatusThink={this.props.updateStatusThink}/>
+                    <ProfileStatusWithHooks status={status} updateStatusThink={updateStatusThink}/>
                     ava + description
                     <div style={{width: "100px", height: "150px"}}>
-                        {typeof this.props.profile !== typeof "string" ?
+                        {typeof profile !== typeof "string" ?
                             <>
-                                <img src={this.props.profile.photos.small} alt=""
+                                <img src={profile.photos.small} alt=""
                                      style={{width: "100%", height: "100px"}}/>
-                                {this.props.profile.fullName}
+                                {profile.fullName}
                             </>
                             :
                             <Loader/>}
